@@ -1,0 +1,22 @@
+# This is Git's per-user configuration file.
+[user]
+  name = David Buchan-Swanson
+  email = {{ .email }}
+  signingkey = DB022207558471B5
+[commit]
+  gpgsign = true
+[core]
+  pager = delta
+[rerere]
+  enabled = true
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+[delta]
+  line-numbers = true
+[alias]
+  commito = commit
+[init]
+	defaultBranch = main
