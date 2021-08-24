@@ -57,6 +57,8 @@ alias l="ls -al"
 alias gs="git status"
 alias gst="git status"
 alias gsw="git switch"
+alias gd="git diff"
+alias gds="gd --staged"
 alias vi="nvim"
 alias cz="chezmoi"
 [ -f ~/projects/ferocia/up/.zsh-up-completion/init.zsh ] && source ~/projects/ferocia/up/.zsh-up-completion/init.zsh
