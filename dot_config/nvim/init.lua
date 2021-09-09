@@ -113,7 +113,6 @@ require('packer').startup(function()
       require("trouble").setup {
         auto_close = true,
         mode = "lsp_document_diagnostics",
-        debug = true,
       }
       local k = require('util.keymap')
       k.nnoremap("<leader>xx", "<cmd>Trouble<cr>", { silent = true })
@@ -129,7 +128,16 @@ require('packer').startup(function()
     'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons'},
     config = function()
-      require("lualine").setup()
+      require("lualine").setup {
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', { "diagnostics", sources = { "nvim_lsp" } } },
+          lualine_c = { 'filename' },
+          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' }
+        }
+      }
     end
   }
 
