@@ -126,6 +126,11 @@ require('packer').startup(function()
   }
 
   use {
+    'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'}
+  }
+
+  use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
