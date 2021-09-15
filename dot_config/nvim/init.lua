@@ -132,11 +132,23 @@ require('packer').startup(function()
         sections = {
           lualine_a = { 'mode' },
           lualine_b = { 'branch', { "diagnostics", sources = { "nvim_lsp" } } },
-          lualine_c = { 'filename' },
+          lualine_c = { { 'filename', path = 1, file_status = true } },
           lualine_x = { 'encoding', 'fileformat', 'filetype' },
           lualine_y = { 'progress' },
           lualine_z = { 'location' }
         }
+      }
+    end
+  }
+
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require('gitsigns').setup {
+        current_line_blame = true
       }
     end
   }
