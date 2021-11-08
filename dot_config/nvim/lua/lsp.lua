@@ -10,7 +10,7 @@ local on_attach = function (client, bufnr)
 
   local opts = { noremap=true, silent=true }
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -19,16 +19,18 @@ local on_attach = function (client, bufnr)
 
   -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
- vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+  -- vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]]
 end
 
+nvim_lsp.kotlin_language_server.setup{
+  cmd = { "/Users/david/Downloads/server/bin/kotlin-language-server" },
+  on_attach = on_attach,
+}
+
 nvim_lsp.sorbet.setup{
-  cmd = { "srb", "tc", "--lsp", "--no-config", "--dir", ".", "--ignore=/spec", "--ignore=/node_modules" },
+  cmd = { "srb", "tc", "--lsp", "-vvv" },
   root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
   on_attach = on_attach,
-  on_new_config = function (new_config, new_root_dir)
-    new_config.cmd = { "srb", "tc", "--lsp", "--no-config", "--dir", new_root_dir, "--ignore=/spec", "--ignore=/node_modules" }
-  end
 }
 
 nvim_lsp.flow.setup{
@@ -43,14 +45,27 @@ nvim_lsp.tsserver.setup{
   on_attach = on_attach,
 }
 
+nvim_lsp.rls.setup{
+  on_attach = function (client, bufnr)
+    on_attach(client, bufnr)
+
+    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+  end,
+}
+
 nvim_lsp.diagnosticls.setup{
-  filetypes = { "ruby", "javascript", "sh", "bash" },
+  filetypes = { "ruby", "javascript", "typescript", "typescriptreact", "sh", "bash" },
   -- this needs to be kept up to date with all the rootPatterns below
   root_dir = nvim_lsp.util.root_pattern(".git"),
+  on_attach = function (client, bufnr)
+    on_attach(client, bufnr)
+
+    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]]
+  end,
   init_options = {
     filetypes = {
       javascript = { "eslint", "prettier" },
-      ruby = { "rubocop", "prettier" },
+      -- ruby = { "rubocop", "prettier" },
       sh = { "shellcheck" },
       bash = { "shellcheck" },
     },

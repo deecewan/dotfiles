@@ -26,6 +26,8 @@ vim.o.foldmethod = "syntax"
 vim.o.undofile = true
 -- start with folds disabled (enabled with zc)
 vim.o.foldenable = false
+-- show preview of replacements
+vim.o.inccommand = "nosplit"
 
 vim.o.completeopt = "menuone,noselect"
 
@@ -121,6 +123,7 @@ require('packer').startup(function()
       k.nnoremap("<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true })
       k.nnoremap("<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true })
       k.nnoremap("gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true })
+      k.nnoremap("gd", "<cmd>TroubleToggle lsp_definitions<cr>", { silent = true })
     end
   }
 
@@ -180,5 +183,8 @@ require('packer').startup(function()
   use 'tpope/vim-eunuch'
   use 'tpope/vim-commentary'
   use 'sheerun/vim-polyglot'
+  use 'AndrewRadev/splitjoin.vim'
+  use 'tpope/vim-repeat'
+  use 'machakann/vim-highlightedyank'
 
 end)

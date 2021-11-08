@@ -22,7 +22,7 @@ zinit light-mode for \
     zinit-zsh/z-a-bin-gem-node
 ### End of Zinit's installer chunk
 
-zinit ice pick"async.zsh" src"pure.zsh"
+zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
 zinit wait lucid for \
@@ -78,5 +78,5 @@ path=(
   $ANDROID_SDK_ROOT/tools/bin
 )
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
