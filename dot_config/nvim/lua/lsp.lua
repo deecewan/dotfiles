@@ -19,7 +19,9 @@ local on_attach = function (client, bufnr)
 
   -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-  -- vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]]
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]]
+  end
 end
 
 nvim_lsp.kotlin_language_server.setup{
@@ -42,42 +44,58 @@ nvim_lsp.flow.setup{
 
 nvim_lsp.tsserver.setup{
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-  on_attach = on_attach,
+  on_attach = function (client, bufnr)
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+
+    on_attach(client, bufnr)
+  end,
 }
 
 nvim_lsp.rls.setup{
   on_attach = function (client, bufnr)
     on_attach(client, bufnr)
 
-    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+    client.resolved_capabilities.document_formatting = true
+    client.resolved_capabilities.document_range_formatting = true
   end,
 }
 
+nvim_lsp.sourcekit.setup {
+  on_attach = on_attach,
+}
+
 nvim_lsp.diagnosticls.setup{
-  filetypes = { "ruby", "javascript", "typescript", "typescriptreact", "sh", "bash" },
+  filetypes = { "ruby", "javascript", "typescript", "typescriptreact", "sh", "bash", "swift" },
   -- this needs to be kept up to date with all the rootPatterns below
   root_dir = nvim_lsp.util.root_pattern(".git"),
   on_attach = function (client, bufnr)
     on_attach(client, bufnr)
 
-    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]]
+    client.resolved_capabilities.document_formatting = true
+    client.resolved_capabilities.document_range_formatting = true
   end,
   init_options = {
     filetypes = {
       javascript = { "eslint", "prettier" },
+      typescript = { "eslint", "prettier" },
+      typescriptreact = { "eslint", "prettier" },
       -- ruby = { "rubocop", "prettier" },
       sh = { "shellcheck" },
       bash = { "shellcheck" },
     },
     formatFiletypes = {
       javascript = 'prettier',
+      typescript = 'prettier',
+      typescriptreact = 'prettier',
       ruby = { "rubocop", "prettier" },
+      swift = { "swiftformat" }
     },
     linters = {
       eslint = {
         sourceName = "eslint",
         command = "./node_modules/.bin/eslint",
-        rootPatterns = { ".eslintrc", ".eslintrc.js" },
+        rootPatterns = { ".eslintrc", ".eslintrc.js", ".eslintrc.json" },
         args = {
           "--stdin",
           "--stdin-filename",
@@ -151,8 +169,13 @@ nvim_lsp.diagnosticls.setup{
     formatters = {
       prettier = {
         command = './node_modules/.bin/prettier',
-        rootPatterns = { ".prettierrc.json" },
+        rootPatterns = { ".prettierrc.json", ".prettierrc" },
         args = { '--stdin-filepath', '%filename' },
+      },
+      swiftformat = {
+        command = "/usr/local/bin/swift-format",
+        rootPatterns = { ".swift-format.json" },
+        args = { '--assume-filename', '%filename' },
       }
     }
   },

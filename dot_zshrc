@@ -39,7 +39,6 @@ zinit load rupa/z
 zinit ice wait lucid
 zinit snippet OMZL::history.zsh
 zinit ice wait lucid
-zinit load asdf-vm/asdf
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -59,6 +58,18 @@ alias gst="git status"
 alias gsw="git switch"
 alias gd="git diff"
 alias gds="gd --staged"
+
+function git-hub-clone() {
+  TO_CLONE=""
+  if [ $# -eq 1 ]; then
+    TO_CLONE="$1"
+  else
+    TO_CLONE="$1/$2"
+  fi
+
+  git clone git@github.com:$TO_CLONE.git $HOME/projects/$TO_CLONE;
+}
+
 alias vi="nvim"
 alias cz="chezmoi"
 [ -f ~/projects/ferocia/up/.zsh-up-completion/init.zsh ] && source ~/projects/ferocia/up/.zsh-up-completion/init.zsh
@@ -68,7 +79,6 @@ bindkey "^N" history-beginning-search-forward
 
 source "$HOME/.config/zsh/fzf.zsh"
 
-yarn_path=$(asdf exec npm bin -g)
 
 path=(
   $path
@@ -80,3 +90,4 @@ path=(
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+. $(brew --prefix asdf)/libexec/asdf.sh

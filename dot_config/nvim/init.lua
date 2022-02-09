@@ -114,12 +114,14 @@ require('packer').startup(function()
     config = function()
       require("trouble").setup {
         auto_close = true,
-        mode = "lsp_document_diagnostics",
+        mode = "document_diagnostics",
+        auto_jump = {"lsp_definitions"},
       }
+
       local k = require('util.keymap')
       k.nnoremap("<leader>xx", "<cmd>Trouble<cr>", { silent = true })
-      k.nnoremap("<leader>xw", "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>", { silent = true })
-      k.nnoremap("<leader>xd", "<cmd>TroubleToggle lsp_document_diagnostics<cr>", { silent = true })
+      k.nnoremap("<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true })
+      k.nnoremap("<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true })
       k.nnoremap("<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true })
       k.nnoremap("<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true })
       k.nnoremap("gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true })
