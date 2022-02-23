@@ -160,7 +160,43 @@ require('packer').startup(function()
 
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
+    run = ':TSUpdate',
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+        -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+        ensure_installed = {
+          "javascript",
+          "typescript",
+          "tsx",
+          "rust",
+          "bash",
+          "lua",
+          "graphql",
+          "css",
+          "html",
+          "java",
+          "json",
+          "json5",
+          "jsonc",
+          "kotlin",
+          "markdown",
+          "ruby",
+          "vim",
+          "yaml",
+        },
+
+        -- Install languages synchronously (only applied to `ensure_installed`)
+        sync_install = false,
+
+        indent = {
+          enable = true,
+        },
+
+        highlight = {
+          enable = true,
+        }
+      }
+    end
   }
 
   use {
@@ -180,11 +216,23 @@ require('packer').startup(function()
     end
   }
 
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function()
+      local null_ls = require('null-ls')
+      null_ls.setup {
+        sources = {
+          null_ls.builtins.diagnostics.shellcheck
+        },
+      }
+    end
+  }
+
   use 'tpope/vim-rails'
   use 'tpope/vim-surround'
   use 'tpope/vim-eunuch'
   use 'tpope/vim-commentary'
-  use 'sheerun/vim-polyglot'
+  -- use 'sheerun/vim-polyglot'
   use 'AndrewRadev/splitjoin.vim'
   use 'tpope/vim-repeat'
   use 'machakann/vim-highlightedyank'
