@@ -41,6 +41,12 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   use {
+    'lukas-reineke/lsp-format.nvim',
+    config = function()
+      require('lsp-format').setup { }
+    end
+  }
+  use {
    'neovim/nvim-lspconfig',
    config = function() require('lsp') end,
   }
@@ -222,7 +228,9 @@ require('packer').startup(function()
       local null_ls = require('null-ls')
       null_ls.setup {
         sources = {
-          null_ls.builtins.diagnostics.shellcheck
+          null_ls.builtins.diagnostics.shellcheck.with({
+            diagnostics_format = "[#{c}] #{m} (#{s})"
+          })
         },
       }
     end
