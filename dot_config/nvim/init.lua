@@ -236,6 +236,19 @@ require('packer').startup(function()
     end
   }
 
+  use {
+    "nathom/filetype.nvim",
+    config = function()
+      local ft = require('filetype')
+
+      ft.setup({
+        literal = {
+          Fastfile = "ruby"
+        }
+      })
+    end
+  }
+
   use 'tpope/vim-rails'
   use 'tpope/vim-surround'
   use 'tpope/vim-eunuch'

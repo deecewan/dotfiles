@@ -1,3 +1,4 @@
+
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
@@ -35,6 +36,9 @@ zinit wait lucid for \
 # finished initialising
 zinit ice pick"z.sh"
 zinit load rupa/z
+
+export HISTSIZE=1000000000
+export SAVEHIST=$HISTSIZE
 
 zinit ice wait lucid
 zinit snippet OMZL::history.zsh
