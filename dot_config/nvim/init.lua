@@ -34,6 +34,30 @@ vim.o.completeopt = "menuone,noselect"
 -- set up custom keybindings
 require('keymap')
 
+-- Strip trailing whitespaces on save
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    { pattern = "*", command = "%s/\\s\\+$//e" }
+)
+
+-- Strip double blank lines in ruby on save
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    { pattern = "*.rb", command = "%s/\\n\\n\\n\\+/\r\r/e" }
+)
+
+-- Strip eof newlines
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    { pattern = "*", command = "%s/\\n\\+\\%$//e" }
+)
+
+-- Highlight selection on yank
+vim.api.nvim_create_autocmd(
+    "TextYankPost",
+    { pattern = "*", callback = vim.highlight.on_yank }
+)
+
 vim.cmd [[packadd packer.nvim]]
 
 require('packer').startup(function()
@@ -59,9 +83,17 @@ require('packer').startup(function()
      k.nnoremap('<leader>b', ':Buffers<CR>', { silent = true })
      k.nnoremap('<leader>F', ':Files<CR>', { silent = true })
      k.nnoremap('<leader>f', ':GitFiles<CR>', { silent = true })
-     k.nnoremap('<leader>rw', ':exec "Rg " . expand("<cword>")<cr>', { silent = true })
-     k.nnoremap('<leader>rg', ':Rg ')
-   end,
+
+     vim.cmd([[
+     command! -bang -nargs=* Rh
+       \ call fzf#vim#grep(
+       \   'rg --hidden --glob !.git/ --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+       \   fzf#vim#with_preview(), <bang>0)
+     ]])
+
+     k.nnoremap('<leader>rw', ':exec "Rh " . expand("<cword>")<cr>', { silent = true })
+     k.nnoremap('<leader>rg', ':Rh ')
+    end,
   }
 
   use {
@@ -131,7 +163,7 @@ require('packer').startup(function()
       k.nnoremap("<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true })
       k.nnoremap("<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true })
       k.nnoremap("gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true })
-      k.nnoremap("gd", "<cmd>TroubleToggle lsp_definitions<cr>", { silent = true })
+      -- k.nnoremap("gd", "<cmd>TroubleToggle lsp_definitions<cr>", { silent = true })
     end
   }
 
@@ -161,6 +193,25 @@ require('packer').startup(function()
       require('gitsigns').setup {
         current_line_blame = true
       }
+    end
+  }
+
+  use {
+    'sindrets/diffview.nvim',
+    requires = { 'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons' },
+  }
+
+  use {
+    'TimUntersberger/neogit',
+    requires = { 'nvim-lua/plenary.nvim', 'sindrets/diffview.nvim' },
+    config = function()
+      require('neogit').setup {
+        integrations = { diffview = true }
+      }
+
+      local k = require('util.keymap')
+      k.nnoremap("<leader>g", "<cmd>Neogit<cr>")
+
     end
   }
 
@@ -227,10 +278,28 @@ require('packer').startup(function()
     config = function()
       local null_ls = require('null-ls')
       null_ls.setup {
+        on_attach = function (client, bufnr)
+          require "lsp-format".on_attach(client)
+        end,
         sources = {
+          null_ls.builtins.formatting.rustfmt,
+
           null_ls.builtins.diagnostics.shellcheck.with({
             diagnostics_format = "[#{c}] #{m} (#{s})"
-          })
+          }),
+
+          null_ls.builtins.diagnostics.rubocop.with({
+            condition = function(utils)
+              return utils.root_has_file({ ".rubocop.yml" })
+            end
+          }),
+          null_ls.builtins.formatting.prettier.with({
+            prefer_local = "./node_modules/.bin",
+            extra_filetypes = { "ruby" },
+          }),
+          null_ls.builtins.code_actions.eslint.with({
+            prefer_local = "./node_modules/.bin",
+          }),
         },
       }
     end
@@ -242,8 +311,13 @@ require('packer').startup(function()
       local ft = require('filetype')
 
       ft.setup({
-        literal = {
-          Fastfile = "ruby"
+        overrides = {
+          literal = {
+            Fastfile = "ruby",
+            Pluginfile = "ruby",
+            Matchfile = "ruby",
+            Appfile = "ruby",
+          }
         }
       })
     end
@@ -253,9 +327,8 @@ require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'tpope/vim-eunuch'
   use 'tpope/vim-commentary'
-  -- use 'sheerun/vim-polyglot'
   use 'AndrewRadev/splitjoin.vim'
   use 'tpope/vim-repeat'
-  use 'machakann/vim-highlightedyank'
+  use 'gpanders/editorconfig.nvim'
 
 end)
