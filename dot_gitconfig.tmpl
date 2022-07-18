@@ -16,7 +16,19 @@
   required = true
 [delta]
   line-numbers = true
+  navigate = true
+  hyperlinks = true
 [alias]
   commito = commit
 [init]
 	defaultBranch = main
+[interactive]
+    diffFilter = delta --color-only
+[diff]
+    colorMoved = default
+[merge]
+    conflictstyle = diff3
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[push]
+	autoSetupRemote = true
