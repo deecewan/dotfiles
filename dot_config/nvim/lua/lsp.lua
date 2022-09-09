@@ -37,6 +37,12 @@ nvim_lsp.flow.setup{
 }
 
 nvim_lsp.tsserver.setup{
+  -- cmd = { "typescript-language-server", "--stdio", "--log-level=4", "--tsserver-log-file=/Users/david/ts-log.log", "--tsserver-log-verbosity=verbose" },
+  settings = {
+    diagnostics = {
+      ignoredCodes = { 80006 }
+    }
+  },
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
   on_attach = function (client, bufnr)
     client.resolved_capabilities.document_formatting = false

@@ -87,6 +87,7 @@ bindkey "^N" history-beginning-search-forward
 
 source "$HOME/.config/zsh/fzf.zsh"
 
+. ~/.asdf/plugins/java/set-java-home.zsh
 
 path=(
   $path

@@ -65,12 +65,6 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   use {
-    'lukas-reineke/lsp-format.nvim',
-    config = function()
-      require('lsp-format').setup { }
-    end
-  }
-  use {
    'neovim/nvim-lspconfig',
    config = function() require('lsp') end,
   }
@@ -168,8 +162,8 @@ require('packer').startup(function()
   }
 
   use {
-    'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'},
+    'nvim-lualine/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', 'folke/tokyonight.nvim' },
     config = function()
       require("lualine").setup {
         sections = {
@@ -179,7 +173,8 @@ require('packer').startup(function()
           lualine_x = { 'encoding', 'fileformat', 'filetype' },
           lualine_y = { 'progress' },
           lualine_z = { 'location' }
-        }
+        },
+        theme = 'tokyonight',
       }
     end
   }
@@ -273,13 +268,26 @@ require('packer').startup(function()
     end
   }
 
+  local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
   use {
     'jose-elias-alvarez/null-ls.nvim',
+    requires = { "nvim-lua/plenary.nvim" },
     config = function()
       local null_ls = require('null-ls')
       null_ls.setup {
+        debug = true,
         on_attach = function (client, bufnr)
-          require "lsp-format".on_attach(client)
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function()
+                -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                vim.lsp.buf.formatting_sync(nil, 10000)
+              end,
+            })
+          end
         end,
         sources = {
           null_ls.builtins.formatting.rustfmt,
@@ -294,16 +302,31 @@ require('packer').startup(function()
             end
           }),
           null_ls.builtins.formatting.prettier.with({
-            prefer_local = "./node_modules/.bin",
             extra_filetypes = { "ruby" },
           }),
           null_ls.builtins.code_actions.eslint.with({
-            prefer_local = "./node_modules/.bin",
+          }),
+          null_ls.builtins.formatting.eslint.with({
+          }),
+          null_ls.builtins.diagnostics.eslint.with({
           }),
         },
       }
     end
   }
+
+  -- use {
+  --   'mfussenegger/nvim-lint',
+  --   config = function()
+  --     local js_linters = { 'eslint' }
+  --     require("lint").linters_by_ft = {
+  --       typescript = js_linters,
+  --       typescriptreact = js_linters,
+  --       javascript = js_linters,
+  --       javascriptreact = js_linters,
+  --     }
+  --   end,
+  -- }
 
   use {
     "nathom/filetype.nvim",
@@ -330,5 +353,21 @@ require('packer').startup(function()
   use 'AndrewRadev/splitjoin.vim'
   use 'tpope/vim-repeat'
   use 'gpanders/editorconfig.nvim'
+
+  use {
+    'folke/tokyonight.nvim',
+    config = function()
+      vim.g.tokyonight_style = "night"
+
+      vim.cmd[[colorscheme tokyonight]]
+    end,
+  }
+
+  use {
+    'j-hui/fidget.nvim',
+    config = function()
+      require"fidget".setup{}
+    end,
+  }
 
 end)
