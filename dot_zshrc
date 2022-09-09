@@ -1,7 +1,11 @@
 eval $(/opt/homebrew/bin/brew shellenv)
 
-export HISTSIZE=1000000000
-export SAVEHIST=$HISTSIZE
+autoload -U promptinit; promptinit
+prompt pure
+
+for f in ~/.config/zsh/*; do
+  source "$f"
+done
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -10,7 +14,6 @@ source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/compl
 
 export IOS_VERSION=14.5
 export EDITOR=nvim
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export ANDROID_SDK_ROOT=~/Library/Android/sdk
 
 export FASTLANE_SKIP_UPDATE_CHECK=1
@@ -55,6 +58,8 @@ path=(
   $ANDROID_SDK_ROOT/tools
   $ANDROID_SDK_ROOT/tools/bin
 )
+
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

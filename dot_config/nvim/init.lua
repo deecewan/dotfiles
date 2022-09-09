@@ -58,6 +58,11 @@ vim.api.nvim_create_autocmd(
     { pattern = "*", callback = vim.highlight.on_yank }
 )
 
+local homebrew_prefix = "/usr/local"
+if jit.arch == "arm64" then
+  homebrew_prefix = "/opt/homebrew"
+end
+
 vim.cmd [[packadd packer.nvim]]
 
 require('packer').startup(function()
@@ -71,7 +76,7 @@ require('packer').startup(function()
 
   use {
    'junegunn/fzf.vim',
-   requires = '/usr/local/opt/fzf',
+   requires = homebrew_prefix .. '/opt/fzf',
    config = function()
      local k = require('util.keymap')
      k.nnoremap('<leader>b', ':Buffers<CR>', { silent = true })
@@ -140,8 +145,8 @@ require('packer').startup(function()
   }
 
   use {
-    -- "folke/trouble.nvim",
-    "~/projects/folke/trouble.nvim",
+    "folke/trouble.nvim",
+    -- "~/projects/folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
     config = function()
       require("trouble").setup {
