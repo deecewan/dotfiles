@@ -9,12 +9,8 @@ done
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-
 export IOS_VERSION=14.5
 export EDITOR=nvim
-export ANDROID_SDK_ROOT=~/Library/Android/sdk
 
 export FASTLANE_SKIP_UPDATE_CHECK=1
 export FASTLANE_HIDE_PLUGINS_TABLE=1
@@ -51,16 +47,10 @@ source "$HOME/.config/zsh/fzf.zsh"
 
 . ~/.asdf/plugins/java/set-java-home.zsh
 
-path=(
-  $path
-  $yarn_path
-  $ANDROID_SDK_ROOT/platform-tools
-  $ANDROID_SDK_ROOT/tools
-  $ANDROID_SDK_ROOT/tools/bin
-)
-
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 . $(brew --prefix asdf)/libexec/asdf.sh
+
+path+=("$(yarn global bin)")
