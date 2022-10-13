@@ -54,3 +54,23 @@ fpath+=("$(brew --prefix)/share/zsh/site-functions")
 . $(brew --prefix asdf)/libexec/asdf.sh
 
 path+=("$(yarn global bin)")
+
+. "$HOME/.cargo/env"
+
+# autoload -U add-zsh-hook
+# __loaded_completions=0
+# __jn-completion-setup() {
+#   # this needs to run in the context of the root of the project, to ensure we
+#   # are using the correct version of node, etc, to run the tools.
+#   if [[ $PWD = /Users/david/projects/ferocia/johanna-native* ]]; then
+#     if [[ __loaded_completions -ne 1 ]]; then
+#       eval "$(/Users/david/projects/ferocia/johanna-native/jn completion)"
+#       __loaded_completions=1
+#     fi
+#   fi
+# }
+# add-zsh-hook chpwd __jn-completion-setup
+
+if [ -f "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh" ]; then
+  source "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh"
+fi

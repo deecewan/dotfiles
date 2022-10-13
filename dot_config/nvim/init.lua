@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd(
 -- Highlight selection on yank
 vim.api.nvim_create_autocmd(
     "TextYankPost",
-    { pattern = "*", callback = vim.highlight.on_yank }
+    { pattern = "*", callback = function() vim.highlight.on_yank({ timeout = 200 }) end }
 )
 
 local homebrew_prefix = "/usr/local"
@@ -99,6 +99,18 @@ require('packer').startup(function()
     'folke/which-key.nvim',
     config = function()
       require("which-key").setup { }
+    end
+  }
+
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {
+        keywords = {
+          TODO = { icon = " ", color = "info" },
+        }
+      }
     end
   }
 
@@ -308,6 +320,36 @@ require('packer').startup(function()
           }),
           null_ls.builtins.formatting.prettier.with({
             extra_filetypes = { "ruby" },
+            condition = function(utils)
+              -- https://prettier.io/docs/en/configuration.html
+              local has_file = utils.root_has_file({
+                ".prettierrc",
+                ".prettierrc.json",
+                ".prettierrc.yml",
+                ".prettierrc.yaml",
+                ".prettierrc.json5",
+                ".prettierrc.js",
+                ".prettierrc.cjs",
+                ".prettier.config.js",
+                ".prettier.config.cjs",
+                ".prettierrc.toml",
+              })
+
+              if has_file then
+                return has_file
+              end
+
+              if utils.root_has_file("package.json") then
+                local file = io.open("package.json")
+                if not file then return false end
+                local content = file:read("*all")
+                file:close()
+
+                local parsed = vim.json.decode(content)
+
+                return parsed["prettier"] ~= nil
+              end
+            end
           }),
           null_ls.builtins.code_actions.eslint.with({
           }),
