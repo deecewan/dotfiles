@@ -1,4 +1,5 @@
 local nvim_lsp = require('lspconfig')
+local completion_caps = require('cmp_nvim_lsp').default_capabilities()
 
 -- vim.lsp.set_log_level("debug")
 
@@ -21,19 +22,22 @@ end
 nvim_lsp.kotlin_language_server.setup{
   cmd = { "/Users/david/Downloads/server/bin/kotlin-language-server" },
   on_attach = on_attach,
+  capabilities = completion_caps,
 }
 
 nvim_lsp.sorbet.setup{
   cmd = { "srb", "tc", "--lsp", "-vvv" },
   root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
   on_attach = on_attach,
+  capabilities = completion_caps,
 }
 
 nvim_lsp.flow.setup{
   on_attach = on_attach,
   on_new_config = function (new_config, new_root_dir)
     new_config.cmd = { new_root_dir .. "/node_modules/.bin/flow", "lsp" }
-  end
+  end,
+  capabilities = completion_caps,
 }
 
 nvim_lsp.tsserver.setup{
@@ -50,6 +54,7 @@ nvim_lsp.tsserver.setup{
 
     on_attach(client, bufnr)
   end,
+  capabilities = completion_caps,
 }
 
 nvim_lsp.rust_analyzer.setup{
@@ -59,8 +64,10 @@ nvim_lsp.rust_analyzer.setup{
 
     on_attach(client, bufnr)
   end,
+  capabilities = completion_caps,
 }
 
 nvim_lsp.sourcekit.setup {
   on_attach = on_attach,
+  capabilities = completion_caps,
 }

@@ -29,7 +29,7 @@ vim.o.foldenable = false
 -- show preview of replacements
 vim.o.inccommand = "nosplit"
 
-vim.o.completeopt = "menuone,noselect"
+-- vim.o.completeopt = "menuone,noselect"
 
 -- set up custom keybindings
 require('keymap')
@@ -114,45 +114,85 @@ require('packer').startup(function()
     end
   }
 
-  use {
-    'hrsh7th/nvim-compe',
-    config = function()
-      require'compe'.setup {
-        enabled = true;
-        autocomplete = true;
-        debug = false;
-        min_length = 1;
-        preselect = 'enable';
-        throttle_time = 80;
-        source_timeout = 200;
-        resolve_timeout = 800;
-        incomplete_delay = 400;
-        max_abbr_width = 100;
-        max_kind_width = 100;
-        max_menu_width = 100;
-        documentation = {
-          border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
-          winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-          max_width = 120,
-          min_width = 60,
-          max_height = math.floor(vim.o.lines * 0.3),
-          min_height = 1,
-        };
+  -- use {
+  --   'hrsh7th/nvim-compe',
+  --   config = function()
+  --     require'compe'.setup {
+  --       enabled = true;
+  --       autocomplete = true;
+  --       debug = false;
+  --       min_length = 1;
+  --       preselect = 'enable';
+  --       throttle_time = 80;
+  --       source_timeout = 200;
+  --       resolve_timeout = 800;
+  --       incomplete_delay = 400;
+  --       max_abbr_width = 100;
+  --       max_kind_width = 100;
+  --       max_menu_width = 100;
+  --       documentation = {
+  --         border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+  --         winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+  --         max_width = 120,
+  --         min_width = 60,
+  --         max_height = math.floor(vim.o.lines * 0.3),
+  --         min_height = 1,
+  --       };
 
-        source = {
-          path = true;
-          buffer = true;
-          calc = true;
-          nvim_lsp = true;
-          nvim_lua = true;
-        };
-      }
-      local k = require('util.keymap')
-      k.inoremap('<C-Space>', 'compe#complete()', { silent = true, expr = true })
-      k.inoremap('<CR>', 'compe#confirm("<CR>")', { silent = true, expr = true })
-      k.inoremap('<C-e>', 'compe#close("<C-e>")', { silent = true, expr = true })
-      k.inoremap('<C-f>', 'compe#scroll({ "delta": +4 })', { silent = true, expr = true })
-      k.inoremap('<C-d>', 'compe#scroll({ "delta": d4 })', { silent = true, expr = true })
+  --       source = {
+  --         path = true;
+  --         buffer = true;
+  --         calc = true;
+  --         nvim_lsp = true;
+  --         nvim_lua = true;
+  --       };
+  --     }
+  --     local k = require('util.keymap')
+  --     k.inoremap('<C-Space>', 'compe#complete()', { silent = true, expr = true })
+  --     k.inoremap('<CR>', 'compe#confirm("<CR>")', { silent = true, expr = true })
+  --     k.inoremap('<C-e>', 'compe#close("<C-e>")', { silent = true, expr = true })
+  --     k.inoremap('<C-f>', 'compe#scroll({ "delta": +4 })', { silent = true, expr = true })
+  --     k.inoremap('<C-d>', 'compe#scroll({ "delta": d4 })', { silent = true, expr = true })
+  --   end
+  -- }
+
+  use { 'L3MON4D3/LuaSnip' }
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-nvim-lsp',
+    },
+    config = function()
+      local cmp = require 'cmp'
+
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            require'luasnip'.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        }),
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'path' },
+          { name = 'luasnip' },
+        }, {
+          { name = 'buffer' },
+        })
+      })
+
+      cmp.setup.filetype('lua', {
+        cmp.config.sources({
+          { name = 'nvim_lua' }
+        }),
+      })
     end
   }
 
@@ -361,19 +401,6 @@ require('packer').startup(function()
       }
     end
   }
-
-  -- use {
-  --   'mfussenegger/nvim-lint',
-  --   config = function()
-  --     local js_linters = { 'eslint' }
-  --     require("lint").linters_by_ft = {
-  --       typescript = js_linters,
-  --       typescriptreact = js_linters,
-  --       javascript = js_linters,
-  --       javascriptreact = js_linters,
-  --     }
-  --   end,
-  -- }
 
   use {
     "nathom/filetype.nvim",
