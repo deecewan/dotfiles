@@ -57,6 +57,8 @@ path+=("$(yarn global bin)")
 
 . "$HOME/.cargo/env"
 
+# path=("$(beers --prefix)/bin" $path)
+
 # autoload -U add-zsh-hook
 # __loaded_completions=0
 # __jn-completion-setup() {
