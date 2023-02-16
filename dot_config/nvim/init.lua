@@ -32,7 +32,8 @@ vim.o.inccommand = "nosplit"
 -- vim.o.completeopt = "menuone,noselect"
 
 -- set up custom keybindings
-require("keymap")
+vim.keymap.set("n", "<leader><space>", "<C-^>", {})
+-- require("keymap")
 
 -- Strip trailing whitespaces on save
 vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", command = "%s/\\s\\+$//e" })
@@ -51,11 +52,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-local homebrew_prefix = "/usr/local"
-if jit.arch == "arm64" then
-	homebrew_prefix = "/opt/homebrew"
-end
-
 vim.cmd([[packadd packer.nvim]])
 
 require("packer").startup(function(use)
@@ -70,23 +66,38 @@ require("packer").startup(function(use)
 	})
 
 	use({
-		"junegunn/fzf.vim",
-		requires = homebrew_prefix .. "/opt/fzf",
+		"nvim-telescope/telescope.nvim",
+		branch = "0.1.x",
+		requires = { { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope-fzf-native.nvim", run = "make" } },
 		config = function()
-			local k = require("util.keymap")
-			k.nnoremap("<leader>b", ":Buffers<CR>", { silent = true })
-			k.nnoremap("<leader>F", ":Files<CR>", { silent = true })
-			k.nnoremap("<leader>f", ":GitFiles<CR>", { silent = true })
+			local telescope = require("telescope")
+			telescope.setup()
 
-			vim.cmd([[
-     command! -bang -nargs=* Rh
-       \ call fzf#vim#grep(
-       \   'rg --hidden --glob !.git/ --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
-       \   fzf#vim#with_preview(), <bang>0)
-     ]])
+			telescope.load_extension("fzf")
 
-			k.nnoremap("<leader>rw", ':exec "Rh " . expand("<cword>")<cr>', { silent = true })
-			k.nnoremap("<leader>rg", ":Rh ")
+			local builtin = require("telescope.builtin")
+
+			local find_files = function()
+				local opts = {} -- define here if you want to define something
+				vim.fn.system("git rev-parse --is-inside-work-tree")
+				if vim.v.shell_error == 0 then
+					builtin.git_files(opts)
+				else
+					builtin.find_files(opts)
+				end
+			end
+
+			local find_hidden = function()
+				builtin.find_files({
+					find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+				})
+			end
+
+			vim.keymap.set("n", "<leader>ff", find_files, { desc = "find files" })
+			vim.keymap.set("n", "<leader>fh", find_hidden, { desc = "find hidden files" })
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "rg" })
+			vim.keymap.set("n", "<leader>fs", builtin.grep_string, { desc = "rg for string under cursor" })
+			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "show buffers" })
 		end,
 	})
 
@@ -114,7 +125,12 @@ require("packer").startup(function(use)
 		tag = "v0.3.0",
 		requires = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("crates").setup()
+			require("crates").setup({
+				null_ls = {
+					enabled = true,
+					name = "crates.nvim",
+				},
+			})
 		end,
 	})
 
@@ -391,7 +407,35 @@ require("packer").startup(function(use)
 					null_ls.builtins.code_actions.eslint.with({}),
 					null_ls.builtins.formatting.eslint.with({}),
 					null_ls.builtins.diagnostics.eslint.with({}),
-					null_ls.builtins.diagnostics.selene,
+					null_ls.builtins.diagnostics.selene.with({
+						-- args = function(params)
+						-- 	local utils = require("null-ls.utils")
+						-- 	local config_file = nil
+						-- 	local check_dir = vim.fn.fnamemodify(params.bufname, ":h")
+						-- 	while true do
+						-- 		local check_file = utils.path.join(check_dir, "selene.toml")
+						-- 		if utils.path.exists(check_file) then
+						-- 			config_file = check_file
+						-- 			break
+						-- 		end
+
+						-- 		if check_dir == "/" then
+						-- 			break
+						-- 		end
+
+						-- 		check_dir = vim.fn.fnamemodify(check_dir, ":h")
+						-- 	end
+
+						-- 	return {
+						-- 		"--config",
+						-- 		config_file,
+						-- 		-- the defaults
+						-- 		"--display-style",
+						-- 		"quiet",
+						-- 		"-",
+						-- 	}
+						-- end,
+					}),
 				},
 			})
 		end,

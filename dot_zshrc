@@ -76,3 +76,5 @@ path+=("$(yarn global bin)")
 if [ -f "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh" ]; then
   source "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh"
 fi
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
