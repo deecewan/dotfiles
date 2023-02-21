@@ -33,7 +33,6 @@ vim.o.inccommand = "nosplit"
 
 -- set up custom keybindings
 vim.keymap.set("n", "<leader><space>", "<C-^>", {})
--- require("keymap")
 
 -- Strip trailing whitespaces on save
 vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", command = "%s/\\s\\+$//e" })
@@ -136,21 +135,51 @@ require("packer").startup(function(use)
 
 	use({
 		"mfussenegger/nvim-dap",
+		requires = { "rcarriga/nvim-dap-ui", "theHamsta/nvim-dap-virtual-text", "suketa/nvim-dap-ruby" },
 		config = function()
 			local dap = require("dap")
+			dap.set_log_level("TRACE")
+
+			require("nvim-dap-virtual-text").setup({})
+			require("dap-ruby").setup()
+
+			vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "(debug) toggle breakpoint" })
+			vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "(debug) continue" })
+			vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "(debug) step over" })
+			vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "(debug) step into" })
+
+			dap.adapters.cppdbg = {
+				id = "cppdbg",
+				name = "vscode-cpptools",
+				type = "executable",
+				command = "OpenDebugAD7",
+			}
 
 			dap.configurations.rust = {
-				type = "executable",
-				command = "/Users/david/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
+				{
+					name = "Launch file",
+					type = "cppdbg",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopAtEntry = true,
+					MIMode = "lldb",
+				},
 			}
-		end,
-	})
 
-	use({
-		"rcarriga/nvim-dap-ui",
-		requires = { "mfussenegger/nvim-dap" },
-		config = function()
-			local dap = require("dap")
+			local js = {
+				id = "cppdbg",
+				name = "vscode-cpptools",
+				type = "executable",
+				command = "OpenDebugAD7",
+			}
+			dap.adapters.javascript = js
+			dap.adapters.typescript = js
+			dap.adapters.typescriptreact = js
+			dap.adapters.javascriptreact = js
+
 			local dapui = require("dapui")
 
 			dapui.setup()
@@ -176,6 +205,7 @@ require("packer").startup(function(use)
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp",
+			"rcarriga/cmp-dap",
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -205,6 +235,12 @@ require("packer").startup(function(use)
 					{ name = "nvim_lua" },
 				}),
 			})
+
+			cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+				cmp.config.sources({
+					{ name = "dap" },
+				}),
+			})
 		end,
 	})
 
@@ -213,20 +249,37 @@ require("packer").startup(function(use)
 		-- "~/projects/folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
-			require("trouble").setup({
+			local trouble = require("trouble")
+
+			trouble.setup({
 				auto_close = true,
 				mode = "document_diagnostics",
 				auto_jump = { "lsp_definitions" },
 			})
 
-			local k = require("util.keymap")
-			k.nnoremap("<leader>xx", "<cmd>Trouble<cr>", { silent = true })
-			k.nnoremap("<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true })
-			k.nnoremap("<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true })
-			k.nnoremap("<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true })
-			k.nnoremap("<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true })
-			k.nnoremap("gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true })
-			-- k.nnoremap("gd", "<cmd>TroubleToggle lsp_definitions<cr>", { silent = true })
+			local toggle_mode = function(mode)
+				return function()
+					trouble.toggle({ mode = mode })
+				end
+			end
+
+			vim.keymap.set("n", "<leader>tt", trouble.toggle, { desc = "toggle trouble" })
+			vim.keymap.set(
+				"n",
+				"<leader>tw",
+				toggle_mode("workspace_diagnostics"),
+				{ desc = "toggle workspace diagnostics" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>td",
+				toggle_mode("document_diagnostics"),
+				{ desc = "toggle document diagnostics" }
+			)
+			vim.keymap.set("n", "<leader>tq", toggle_mode("quickfix"), { desc = "toggle quickfix" })
+			vim.keymap.set("n", "<leader>tl", toggle_mode("loclist"), { desc = "toggle loclist" })
+			vim.keymap.set("n", "gR", toggle_mode("lsp_references"), { desc = "show lsp references" })
+			vim.keymap.set("n", "gd", toggle_mode("lsp_definitions"), { desc = "show lsp definitions" })
 		end,
 	})
 
@@ -273,8 +326,7 @@ require("packer").startup(function(use)
 				integrations = { diffview = true },
 			})
 
-			local k = require("util.keymap")
-			k.nnoremap("<leader>g", "<cmd>Neogit<cr>")
+			vim.keymap.set("n", "<leader>g", vim.cmd.Neogit)
 		end,
 	})
 
@@ -304,14 +356,11 @@ require("packer").startup(function(use)
 					"vim",
 					"yaml",
 				},
-
 				-- Install languages synchronously (only applied to `ensure_installed`)
 				sync_install = false,
-
 				indent = {
 					enable = true,
 				},
-
 				highlight = {
 					enable = true,
 				},
@@ -322,17 +371,17 @@ require("packer").startup(function(use)
 	use({
 		"vim-test/vim-test",
 		config = function()
-			local k = require("util.keymap")
-			k.tmap("<C-o>", [[<C-\><C-n>]])
+			vim.keymap.set("t", "<C-o>", [[<C-\><C-n>]])
+
 			vim.cmd([[
         let test#strategy = "neovim"
         let test#neovim#term_position = "vert"
       ]])
 
-			k.nnoremap("tn", "<cmd>TestNearest<cr>", { silent = true })
-			k.nnoremap("tf", "<cmd>TestFile<cr>", { silent = true })
-			k.nnoremap("tl", "<cmd>TestLast<cr>", { silent = true })
-			k.nnoremap("tv", "<cmd>TestVisit<cr>", { silent = true })
+			vim.keymap.set("n", "tn", vim.cmd.TestNearest, { desc = "Run test under cursor" })
+			vim.keymap.set("n", "tf", vim.cmd.TestFile, { desc = "Run all tests in file" })
+			vim.keymap.set("n", "tl", vim.cmd.TestLast, { desc = "Re-run last test" })
+			vim.keymap.set("n", "tv", vim.cmd.TestVisit, { desc = "Open last-run test" })
 		end,
 	})
 
@@ -342,16 +391,45 @@ require("packer").startup(function(use)
 		requires = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local null_ls = require("null-ls")
+			local async_formatting = function(bufnr)
+				bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+				vim.lsp.buf_request(
+					bufnr,
+					"textDocument/formatting",
+					vim.lsp.util.make_formatting_params({}),
+					function(err, res, ctx)
+						if err then
+							local err_msg = type(err) == "string" and err or err.message
+							-- you can modify the log message / level (or ignore it completely)
+							vim.notify("formatting: " .. err_msg, vim.log.levels.WARN)
+							return
+						end
+
+						-- don't apply results if buffer is unloaded or has been modified
+						if not vim.api.nvim_buf_is_loaded(bufnr) or vim.api.nvim_buf_get_option(bufnr, "modified") then
+							return
+						end
+
+						if res then
+							local client = vim.lsp.get_client_by_id(ctx.client_id)
+							vim.lsp.util.apply_text_edits(res, bufnr, client and client.offset_encoding or "utf-16")
+							vim.api.nvim_buf_call(bufnr, function()
+								vim.cmd("silent noautocmd update")
+							end)
+						end
+					end
+				)
+			end
 			null_ls.setup({
-				debug = true,
 				on_attach = function(client, bufnr)
 					if client.supports_method("textDocument/formatting") then
 						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-						vim.api.nvim_create_autocmd("BufWritePre", {
+						vim.api.nvim_create_autocmd("BufWritePost", {
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								vim.lsp.buf.format({ name = "null-ls", async = false })
+								async_formatting(bufnr)
 							end,
 						})
 					end
@@ -400,6 +478,10 @@ require("packer").startup(function(use)
 
 								local parsed = vim.json.decode(content)
 
+								if not parsed then
+									return false
+								end
+
 								return parsed["prettier"] ~= nil
 							end
 						end,
@@ -407,35 +489,7 @@ require("packer").startup(function(use)
 					null_ls.builtins.code_actions.eslint.with({}),
 					null_ls.builtins.formatting.eslint.with({}),
 					null_ls.builtins.diagnostics.eslint.with({}),
-					null_ls.builtins.diagnostics.selene.with({
-						-- args = function(params)
-						-- 	local utils = require("null-ls.utils")
-						-- 	local config_file = nil
-						-- 	local check_dir = vim.fn.fnamemodify(params.bufname, ":h")
-						-- 	while true do
-						-- 		local check_file = utils.path.join(check_dir, "selene.toml")
-						-- 		if utils.path.exists(check_file) then
-						-- 			config_file = check_file
-						-- 			break
-						-- 		end
-
-						-- 		if check_dir == "/" then
-						-- 			break
-						-- 		end
-
-						-- 		check_dir = vim.fn.fnamemodify(check_dir, ":h")
-						-- 	end
-
-						-- 	return {
-						-- 		"--config",
-						-- 		config_file,
-						-- 		-- the defaults
-						-- 		"--display-style",
-						-- 		"quiet",
-						-- 		"-",
-						-- 	}
-						-- end,
-					}),
+					null_ls.builtins.diagnostics.selene.with({}),
 				},
 			})
 		end,
@@ -465,7 +519,15 @@ require("packer").startup(function(use)
 	use("tpope/vim-commentary")
 	use("AndrewRadev/splitjoin.vim")
 	use("tpope/vim-repeat")
-	use("gpanders/editorconfig.nvim")
+	-- use("gpanders/editorconfig.nvim")
+	use({
+		"folke/neodev.nvim",
+		config = function()
+			require("neodev").setup({
+				library = { plugins = { "nvim-dap-ui" }, types = true },
+			})
+		end,
+	})
 
 	use({
 		"folke/tokyonight.nvim",
@@ -527,6 +589,8 @@ require("packer").startup(function(use)
 				"lua-language-server",
 
 				"chrome-debug-adapter",
+				"cpptools",
+				"js-debug-adapter",
 			})
 		end,
 	})

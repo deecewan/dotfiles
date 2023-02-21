@@ -75,7 +75,7 @@ nvim_lsp.sourcekit.setup({
 	capabilities = completion_caps,
 })
 
-nvim_lsp.sumneko_lua.setup({
+nvim_lsp.lua_ls.setup({
 	on_attach = on_attach,
 	capabilities = completion_caps,
 	settings = {

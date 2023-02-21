@@ -39,6 +39,7 @@ function git-hub-clone() {
 alias vi="nvim"
 alias cz="chezmoi"
 [ -f ~/projects/ferocia/up/.zsh-up-completion/init.zsh ] && source ~/projects/ferocia/up/.zsh-up-completion/init.zsh
+alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
 
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
