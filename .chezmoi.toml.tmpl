@@ -1,0 +1,15 @@
+{{ $email := promptString "email" -}}
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+encryption = "age"
+[data]
+  email = {{ $email | quote }}
+  osid = {{ $osid | quote }}
+[age]
+  identity = "{{ .chezmoi.homeDir }}/.config/chezmoi/identity.txt"
+  recipient = "age14y0f2fjgejf0r3khur0v6wkx4y22jf8p5t29ah2ppct3gpr8vusqfllwpd"
+[git]
+    autoCommit = true
