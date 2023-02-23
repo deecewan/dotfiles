@@ -58,8 +58,12 @@ util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 . $(brew --prefix asdf)/libexec/asdf.sh
 {{ end }}
 
-if command -v yarn; then
+if command -v yarn > /dev/null; then
   path+=("$(yarn global bin)")
+fi
+
+if [[ -d "$HOME/bin" ]]; then
+  path+=("$HOME/bin")
 fi
 
 util.source_if_exists "$HOME/.cargo/env"

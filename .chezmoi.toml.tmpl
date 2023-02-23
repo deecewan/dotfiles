@@ -8,6 +8,10 @@ encryption = "age"
 [data]
   email = {{ $email | quote }}
   osid = {{ $osid | quote }}
+[data.options]
+  android = false
+  gcloud = false
+  brew = false
 [diff]
   pager = "delta"
 [age]

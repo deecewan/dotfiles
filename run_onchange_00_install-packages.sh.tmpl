@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+echo "Installing packages..."
+
+packages=(
+  bat
+  exa
+  fzf
+  git
+  ripgrep
+  zsh
+)
+
+{{ if eq .osid "linux-ubuntu" }}
+
+packages+=(
+  build-essential
+  keychain
+  luajit
+)
+
+echo "Installing the following from apt:"
+echo "${packages[*]}"
+
+sudo apt update
+sudo apt install -y ${packages[*]}
+
+# apt has a super old neovim
+sudo snap install nvim --classic
+{{ else if eq .osid "darwin" }}
+
+packages+=(
+  neovim
+)
+
+echo "Installing the following from homebrew:"
+echo "${packages[*]}"
+
+brew install ${packages[*]}
+{{ end }}
+
+echo "Done!"

@@ -1,7 +1,7 @@
 local repo_folder="$HOME/.config/zsh/plugins"
 
 zsh.update_plugins() {
-  for folder in $repo_folder/*; do
+  for folder in $repo_folder/*/*; do
     echo "Updating $folder"
 
     pushd "$folder"

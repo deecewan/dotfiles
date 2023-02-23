@@ -1,0 +1,15 @@
+{{- if not .options.gcloud }}
+.config/zsh/gcloud.zsh
+{{ end -}}
+
+{{- if not .options.android  }}
+.config/zsh/android.zsh
+{{ end -}}
+
+{{- if not .options.brew  }}
+brew-bundle.sh
+{{ end -}}
+
+{{- if not (eq .osid "linux-ubuntu") }}
+.config/zsh/keychain.zsh
+{{ end -}}
