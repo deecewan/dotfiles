@@ -1,5 +1,17 @@
 local repo_folder="$HOME/.config/zsh/plugins"
 
+zsh.update_plugins() {
+  for folder in $repo_folder/*; do
+    echo "Updating $folder"
+
+    pushd "$folder"
+    git pull
+    popd
+  done
+
+  echo "Updated...restart shell to use new updated"
+}
+
 get_repo_path() {
   local repo="$(basename "$1")"
   local org="$(basename "$( dirname $1 )")"
@@ -22,3 +34,9 @@ add_plugin() {
 
 add_plugin "https://github.com/zsh-users/zsh-completions"
 add_plugin "https://github.com/z-shell/F-Sy-H"
+
+add_plugin "https://github.com/sindresorhus/pure"
+# needed for pure
+fpath+=($(get_repo_path "https://github.com/sindresorhus/pure"))
+
+autoload -Uz compinit; compinit

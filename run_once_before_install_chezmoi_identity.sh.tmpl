@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-{{- $configDir := dir .chezmoi.configFile -}}
-{{- $identityFile := printf "%s/identity.txt" $configDir -}}
+{{ $configDir := dir .chezmoi.configFile }}
+{{ $identityFile := printf "%s/identity.txt" $configDir }}
 
 if [ -f "{{- $identityFile -}}" ]; then
   read -n1 -p 'File exists, do you want to overwrite? [y/N]' confirm

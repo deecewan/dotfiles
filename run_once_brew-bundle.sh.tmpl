@@ -1,4 +1,4 @@
-{{- if (eq .chezmoi.os "darwin") -}}
+{{- if (eq .osid "darwin") -}}
 
 #!/usr/bin/env zsh
 FILE="$HOME/Brewfile"
@@ -8,4 +8,3 @@ if ! brew bundle check --file="$FILE"; then
 fi
 
 {{ end -}}
-

@@ -1,13 +1,15 @@
-eval $(/opt/homebrew/bin/brew shellenv)
-
-autoload -U promptinit; promptinit
-prompt pure
+{{ if eq .osid "darwin" }}
+  eval $(/opt/homebrew/bin/brew shellenv)
+{{ end }}
 
 for f in ~/.config/zsh/*; do
   source "$f"
 done
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+autoload -U promptinit; promptinit
+prompt pure
+
+util.source_if_exists ~/.fzf.zsh
 
 export IOS_VERSION=14.5
 export EDITOR=nvim
@@ -38,25 +40,29 @@ function git-hub-clone() {
 
 alias vi="nvim"
 alias cz="chezmoi"
-[ -f ~/projects/ferocia/up/.zsh-up-completion/init.zsh ] && source ~/projects/ferocia/up/.zsh-up-completion/init.zsh
+util.source_if_exists ~/projects/ferocia/up/.zsh-up-completion/init.zsh
 alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
 
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
-source "$HOME/.config/zsh/fzf.zsh"
+util.source_if_exists ~/.asdf/plugins/java/set-java-home.zsh
 
-. ~/.asdf/plugins/java/set-java-home.zsh
-
+{{ if eq .osid "darwin" }}
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
+{{ end }}
 
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 
+{{ if eq .osid "darwin" }}
 . $(brew --prefix asdf)/libexec/asdf.sh
+{{ end }}
 
-path+=("$(yarn global bin)")
+if command -v yarn; then
+  path+=("$(yarn global bin)")
+fi
 
-. "$HOME/.cargo/env"
+util.source_if_exists "$HOME/.cargo/env"
 
 # path=("$(beers --prefix)/bin" $path)
 
