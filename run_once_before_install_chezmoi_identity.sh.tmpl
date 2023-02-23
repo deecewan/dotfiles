@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+{{- $configDir := dir .chezmoi.configFile -}}
+{{- $identityFile := printf "%s/identity.txt" $configDir -}}
+
+if [ -f "{{- $identityFile -}}" ]; then
+  read -n1 -p 'File exists, do you want to overwrite? [y/N]' confirm
+
+  echo
+
+  case "$confirm" in
+    [yY]) echo "Continuing..." ;;
+    *) echo "Exiting"; exit 0 ;;
+  esac
+fi
+
+read -p "Age Identity Contents: " contents
+
+mkdir -p "{{- $identityFile | dir -}}"
+
+echo "$contents" > "{{- $identityFile -}}"
