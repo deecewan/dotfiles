@@ -71,7 +71,6 @@ require("packer").startup(function(use)
 		config = function()
 			local telescope = require("telescope")
 			telescope.setup()
-
 			telescope.load_extension("fzf")
 
 			local builtin = require("telescope.builtin")
@@ -429,13 +428,13 @@ require("packer").startup(function(use)
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								async_formatting(bufnr)
+								-- async_formatting(bufnr)
 							end,
 						})
 					end
 				end,
 				sources = {
-					null_ls.builtins.formatting.rustfmt,
+					-- null_ls.builtins.formatting.rustfmt,
 					null_ls.builtins.formatting.stylua,
 
 					null_ls.builtins.diagnostics.shellcheck.with({
