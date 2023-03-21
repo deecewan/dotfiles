@@ -1,15 +1,16 @@
 {{- if not .options.gcloud }}
-.config/zsh/gcloud.zsh
+dot_config/zsh/gcloud.zsh
 {{ end -}}
 
 {{- if not .options.android  }}
-.config/zsh/android.zsh
+dot_config/zsh/android.zsh
 {{ end -}}
 
 {{- if not .options.brew  }}
-brew-bundle.sh
+run_once_brew-bundle.sh.tmpl
 {{ end -}}
 
 {{- if not (eq .osid "linux-ubuntu") }}
-.config/zsh/keychain.zsh
+dot_config/zsh/keychain.zsh
+run_onchange_install-packages.sh
 {{ end -}}

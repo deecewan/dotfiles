@@ -11,6 +11,11 @@ prompt pure
 
 util.source_if_exists ~/.fzf.zsh
 
+{{ if eq .osid "linux-ubuntu" -}}
+  util.source_if_exists "~/.keychain/$HOST-sh"
+  util.source_if_exists "~/.keychain/$HOST-sh-gpg"
+{{- end }}
+
 export IOS_VERSION=14.5
 export EDITOR=nvim
 

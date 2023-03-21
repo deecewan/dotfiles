@@ -1,4 +1,7 @@
 main() {
+  if ! command -v brew; then
+    return
+  fi
   local cloud_sdk_root; cloud_sdk_root="$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
 
   if [ -d "$cloud_sdk_root" ]; then
