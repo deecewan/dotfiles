@@ -96,6 +96,7 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "rg" })
 			vim.keymap.set("n", "<leader>fs", builtin.grep_string, { desc = "rg for string under cursor" })
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "show buffers" })
+			vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Show all commands" })
 		end,
 	})
 
