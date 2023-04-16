@@ -1,6 +1,6 @@
-{{- if eq .osid "darwin" }}
+{{ if eq .osid "darwin" -}}
 eval $({{.homebrewDir}}/bin/brew shellenv)
-{{ end -}}
+{{- end }}
 
 for f in ~/.config/zsh/*; do
   source "$f"
@@ -21,22 +21,6 @@ export FASTLANE_HIDE_CHANGELOG=1
 alias cat="bat"
 alias ls="exa"
 alias l="ls -al"
-alias gs="git status"
-alias gst="git status"
-alias gsw="git switch"
-alias gd="git diff"
-alias gds="gd --staged"
-
-function git-hub-clone() {
-  TO_CLONE=""
-  if [ $# -eq 1 ]; then
-    TO_CLONE="$1"
-  else
-    TO_CLONE="$1/$2"
-  fi
-
-  git clone git@github.com:$TO_CLONE.git $HOME/projects/$TO_CLONE;
-}
 
 alias vi="nvim"
 alias cz="chezmoi"
@@ -48,19 +32,15 @@ bindkey "^N" history-beginning-search-forward
 
 util.source_if_exists ~/.asdf/plugins/java/set-java-home.zsh
 
-{{ if eq .osid "darwin" }}
+{{ if eq .osid "darwin" -}}
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
-{{ end }}
+{{- end }}
 
 util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 
-{{ if eq .osid "darwin" }}
+{{ if eq .osid "darwin" -}}
 . $(brew --prefix asdf)/libexec/asdf.sh
-{{ end }}
-
-if command -v yarn > /dev/null; then
-  path+=("$(yarn global bin)")
-fi
+{{- end }}
 
 if [[ -d "$HOME/bin" ]]; then
   path+=("$HOME/bin")
@@ -70,22 +50,6 @@ util.source_if_exists "$HOME/.cargo/env"
 
 # path=("$(beers --prefix)/bin" $path)
 
-# autoload -U add-zsh-hook
-# __loaded_completions=0
-# __jn-completion-setup() {
-#   # this needs to run in the context of the root of the project, to ensure we
-#   # are using the correct version of node, etc, to run the tools.
-#   if [[ $PWD = /Users/david/projects/ferocia/johanna-native* ]]; then
-#     if [[ __loaded_completions -ne 1 ]]; then
-#       eval "$(/Users/david/projects/ferocia/johanna-native/jn completion)"
-#       __loaded_completions=1
-#     fi
-#   fi
-# }
-# add-zsh-hook chpwd __jn-completion-setup
-
 if [ -f "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh" ]; then
   source "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh"
 fi
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
