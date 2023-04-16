@@ -39,4 +39,10 @@ add_plugin "https://github.com/z-shell/F-Sy-H"
 fpath+=($(get_repo_path "https://github.com/sindresorhus/pure"))
 add_plugin "https://github.com/sindresorhus/pure"
 
-autoload -Uz compinit; compinit
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+  compdump
+done
+
+compinit -C
