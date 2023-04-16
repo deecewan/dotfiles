@@ -503,6 +503,9 @@ require("packer").startup(function(use)
 
 			ft.setup({
 				overrides = {
+          extensions = {
+            c = "c"
+          },
 					literal = {
 						Fastfile = "ruby",
 						Pluginfile = "ruby",
