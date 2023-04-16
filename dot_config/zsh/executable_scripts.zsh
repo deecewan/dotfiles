@@ -13,7 +13,8 @@ main() {
 download_and_enable() {
   local url="$1"
   local file="$2"
-  # shift; shift;
+  # get rid of the args in $# because some scripts don't like them
+  shift; shift;
 
   local local_location="$download_folder/$file"
 
