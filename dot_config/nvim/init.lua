@@ -519,6 +519,7 @@ require("packer").startup(function(use)
 	use("tpope/vim-commentary")
 	use("AndrewRadev/splitjoin.vim")
 	use("tpope/vim-repeat")
+	use("alker0/chezmoi.vim")
 	-- use("gpanders/editorconfig.nvim")
 	use({
 		"folke/neodev.nvim",

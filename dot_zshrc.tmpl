@@ -1,6 +1,6 @@
-{{ if eq .osid "darwin" }}
-  eval $(/opt/homebrew/bin/brew shellenv)
-{{ end }}
+{{- if eq .osid "darwin" }}
+eval $({{.homebrewDir}}/bin/brew shellenv)
+{{ end -}}
 
 for f in ~/.config/zsh/*; do
   source "$f"
@@ -10,11 +10,6 @@ autoload -U promptinit; promptinit
 prompt pure
 
 util.source_if_exists ~/.fzf.zsh
-
-{{ if eq .osid "linux-ubuntu" -}}
-  util.source_if_exists "~/.keychain/$HOST-sh"
-  util.source_if_exists "~/.keychain/$HOST-sh-gpg"
-{{- end }}
 
 export IOS_VERSION=14.5
 export EDITOR=nvim

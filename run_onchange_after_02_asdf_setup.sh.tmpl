@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# tool-versions hash: {{ include "dot_tool-versions" | sha256sum }}
+
+while IFS= read -r plugin; do
+  asdf plugin add "$plugin"
+done < <(awk '{ print $1 }' ~/.tool-versions)
+
+asdf install

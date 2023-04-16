@@ -35,8 +35,8 @@ add_plugin() {
 add_plugin "https://github.com/zsh-users/zsh-completions"
 add_plugin "https://github.com/z-shell/F-Sy-H"
 
-add_plugin "https://github.com/sindresorhus/pure"
 # needed for pure
 fpath+=($(get_repo_path "https://github.com/sindresorhus/pure"))
+add_plugin "https://github.com/sindresorhus/pure"
 
 autoload -Uz compinit; compinit
