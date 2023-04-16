@@ -1,3 +1,5 @@
+Include ~/.colima/ssh_config
+
 Host *
   {{ if (eq .chezmoi.os "darwin") -}}
   UseKeychain yes
