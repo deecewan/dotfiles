@@ -1,6 +1,8 @@
 {{ if eq .osid "linux-ubuntu" }}
-eval "$(keychain --eval --agents ssh id_rsa)"
+if [[ -z "$SSH_AGENT_PID" ]]; then
+  eval "$(keychain --eval --agents ssh id_rsa)"
 
-util.source_if_exists "~/.keychain/$HOST-sh"
-util.source_if_exists "~/.keychain/$HOST-sh-gpg"
+  util.source_if_exists "~/.keychain/$HOST-sh"
+  util.source_if_exists "~/.keychain/$HOST-sh-gpg"
+fi
 {{ end }}
