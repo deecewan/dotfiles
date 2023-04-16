@@ -1,3 +1,8 @@
+# by default, if you have `vi` in `$EDITOR`, zsh will opt-in to vim mode
+# vim mode is pretty garbage and i'm used to emacs mode, so we explicitly force
+# that one
+bindkey -e
+
 {{ if eq .osid "darwin" -}}
 eval $({{.homebrewDir}}/bin/brew shellenv)
 {{- end }}
