@@ -38,9 +38,7 @@ fpath+=("$(brew --prefix)/share/zsh/site-functions")
 
 util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 
-{{ if eq .osid "darwin" -}}
-. $(brew --prefix asdf)/libexec/asdf.sh
-{{- end }}
+source ~/.asdf/asdf.sh
 
 if [[ -d "$HOME/bin" ]]; then
   path+=("$HOME/bin")
