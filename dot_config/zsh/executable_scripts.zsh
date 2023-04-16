@@ -7,6 +7,7 @@ main() {
 
   # Download rupa/z
   download_and_enable https://raw.githubusercontent.com/rupa/z/master/z.sh z.sh
+  download_and_enable https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh fzf-git.sh
 }
 
 download_and_enable() {
