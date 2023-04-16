@@ -13,6 +13,7 @@ main() {
 download_and_enable() {
   local url="$1"
   local file="$2"
+  shift; shift;
 
   local local_location="$download_folder/$file"
 
