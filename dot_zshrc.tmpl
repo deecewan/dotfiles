@@ -32,6 +32,11 @@ alias cz="chezmoi"
 util.source_if_exists ~/projects/ferocia/up/.zsh-up-completion/init.zsh
 alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
 
+if [[ -n "$KITTY_PID" ]]; then
+  alias icat="kitty +kitten icat"
+  alias kdiff="kitty +kitten diff"
+fi
+
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
