@@ -8,7 +8,7 @@ if [[ ! -d ~/.asdf ]]; then
   source ~/.asdf/asdf.sh
 fi
 
-# tool-versions hash: {{ include "dot_tool-versions" | sha256sum }}
+# tool-versions hash: {{ joinPath .chezmoi.homeDir ".tool-versions" | include | sha256sum }}
 
 while IFS= read -r plugin; do
   asdf plugin add "$plugin"

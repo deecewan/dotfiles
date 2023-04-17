@@ -20,14 +20,16 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 -- set code columns
 vim.o.cc = "80,100"
--- fold based on syntax
-vim.o.foldmethod = "syntax"
 -- turn on undofile for heaps long undos
 vim.o.undofile = true
--- start with folds disabled (enabled with zc)
-vim.o.foldenable = false
 -- show preview of replacements
 vim.o.inccommand = "nosplit"
+
+-- start with folds disabled (enabled with zc)
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
 
 -- vim.o.completeopt = "menuone,noselect"
 
@@ -63,6 +65,24 @@ require("packer").startup(function(use)
 			require("lsp")
 		end,
 	})
+
+  use {
+    "kevinhwang91/nvim-ufo",
+    requires = {
+      "kevinhwang91/promise-async",
+    },
+    after = {
+      -- ufo must load after lsp config so we can be sure it's set up correctly
+      "nvim-lspconfig",
+    },
+    config = function()
+      local ufo = require('ufo')
+      ufo.setup()
+
+      vim.keymap.set('n', 'zR', ufo.openAllFolds)
+      vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+    end
+  }
 
 	use({
 		"nvim-telescope/telescope.nvim",
@@ -211,6 +231,7 @@ require("packer").startup(function(use)
 			local cmp = require("cmp")
 
 			cmp.setup({
+        preselect = cmp.PreselectMode.None,
 				snippet = {
 					expand = function(args)
 						require("luasnip").lsp_expand(args.body)
