@@ -25,8 +25,7 @@ vim.o.undofile = true
 -- show preview of replacements
 vim.o.inccommand = "nosplit"
 
--- start with folds disabled (enabled with zc)
-vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldcolumn = "1" -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
@@ -53,6 +52,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+require("ft")
+
 vim.cmd([[packadd packer.nvim]])
 
 require("packer").startup(function(use)
@@ -66,23 +67,23 @@ require("packer").startup(function(use)
 		end,
 	})
 
-  use {
-    "kevinhwang91/nvim-ufo",
-    requires = {
-      "kevinhwang91/promise-async",
-    },
-    after = {
-      -- ufo must load after lsp config so we can be sure it's set up correctly
-      "nvim-lspconfig",
-    },
-    config = function()
-      local ufo = require('ufo')
-      ufo.setup()
+	use({
+		"kevinhwang91/nvim-ufo",
+		requires = {
+			"kevinhwang91/promise-async",
+		},
+		after = {
+			-- ufo must load after lsp config so we can be sure it's set up correctly
+			"nvim-lspconfig",
+		},
+		config = function()
+			local ufo = require("ufo")
+			ufo.setup()
 
-      vim.keymap.set('n', 'zR', ufo.openAllFolds)
-      vim.keymap.set('n', 'zM', ufo.closeAllFolds)
-    end
-  }
+			vim.keymap.set("n", "zR", ufo.openAllFolds)
+			vim.keymap.set("n", "zM", ufo.closeAllFolds)
+		end,
+	})
 
 	use({
 		"nvim-telescope/telescope.nvim",
@@ -231,7 +232,7 @@ require("packer").startup(function(use)
 			local cmp = require("cmp")
 
 			cmp.setup({
-        preselect = cmp.PreselectMode.None,
+				preselect = cmp.PreselectMode.None,
 				snippet = {
 					expand = function(args)
 						require("luasnip").lsp_expand(args.body)
@@ -312,7 +313,7 @@ require("packer").startup(function(use)
 				sections = {
 					lualine_a = { "mode" },
 					lualine_b = { "branch", { "diagnostics", sources = { "nvim_lsp" } } },
-					lualine_c = { { "filename", path = 1, file_status = true } },
+					lualine_c = { { "filename", path = 4, file_status = true } },
 					lualine_x = { "encoding", "fileformat", "filetype" },
 					lualine_y = { "progress" },
 					lualine_z = { "location" },
@@ -442,16 +443,23 @@ require("packer").startup(function(use)
 					end
 				)
 			end
+
 			null_ls.setup({
 				debug = true,
 				on_attach = function(client, bufnr)
 					if client.supports_method("textDocument/formatting") then
 						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-						vim.api.nvim_create_autocmd("BufWritePost", {
+						vim.api.nvim_create_autocmd("BufWritePre", {
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								-- async_formatting(bufnr)
+								-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+								vim.lsp.buf.format({
+									bufnr = bufnr,
+									filter = function(format_client)
+										return format_client.name == "null-ls"
+									end,
+								})
 							end,
 						})
 					end
@@ -511,28 +519,12 @@ require("packer").startup(function(use)
 					null_ls.builtins.code_actions.eslint.with({}),
 					null_ls.builtins.formatting.eslint.with({}),
 					null_ls.builtins.diagnostics.eslint.with({}),
-					null_ls.builtins.diagnostics.selene.with({}),
-				},
-			})
-		end,
-	})
-
-	use({
-		"nathom/filetype.nvim",
-		config = function()
-			local ft = require("filetype")
-
-			ft.setup({
-				overrides = {
-          extensions = {
-            c = "c"
-          },
-					literal = {
-						Fastfile = "ruby",
-						Pluginfile = "ruby",
-						Matchfile = "ruby",
-						Appfile = "ruby",
-					},
+					null_ls.builtins.diagnostics.selene.with({
+						extra_args = {
+							"--config",
+							vim.fn.expand("~/.config/nvim/selene.toml"),
+						},
+					}),
 				},
 			})
 		end,
@@ -588,9 +580,13 @@ require("packer").startup(function(use)
 			require("mason-lspconfig").setup()
 
 			local reg = require("mason-registry")
+			local should_install = false
 
 			---@param name string
 			local install_if_missing = function(name)
+				if not should_install then
+					return
+				end
 				if not reg.is_installed(name) then
 					local ok, package = pcall(reg.get_package, name)
 
