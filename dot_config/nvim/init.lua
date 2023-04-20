@@ -112,13 +112,17 @@ require("packer").startup(function(use)
 				})
 			end
 
-			vim.keymap.set("n", "<leader>ff", find_files, { desc = "find files" })
-			vim.keymap.set("n", "<leader>fh", find_hidden, { desc = "find hidden files" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "rg" })
-			vim.keymap.set("n", "<leader>fs", builtin.grep_string, { desc = "rg for string under cursor" })
+			vim.keymap.set("n", "<leader>fa", builtin.resume, { desc = "resume last picker" })
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "show buffers" })
-			vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Show all commands" })
+			vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "show all commands" })
+			vim.keymap.set("n", "<leader>ff", find_files, { desc = "find files" })
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "rg" })
+			vim.keymap.set("n", "<leader>fh", find_hidden, { desc = "find hidden files" })
+			vim.keymap.set("n", "<leader>fs", builtin.grep_string, { desc = "rg for string under cursor" })
 		end,
+		keys = {
+			"<leader>f",
+		},
 	})
 
 	use({
@@ -144,6 +148,7 @@ require("packer").startup(function(use)
 		"saecki/crates.nvim",
 		tag = "v0.3.0",
 		requires = { "nvim-lua/plenary.nvim" },
+		event = { "BufRead Cargo.toml" },
 		config = function()
 			require("crates").setup({
 				null_ls = {
@@ -156,7 +161,12 @@ require("packer").startup(function(use)
 
 	use({
 		"mfussenegger/nvim-dap",
-		requires = { "rcarriga/nvim-dap-ui", "theHamsta/nvim-dap-virtual-text", "suketa/nvim-dap-ruby" },
+		requires = {
+			"rcarriga/nvim-dap-ui",
+			"theHamsta/nvim-dap-virtual-text",
+			"suketa/nvim-dap-ruby",
+		},
+		keys = { "<leader>d" },
 		config = function()
 			local dap = require("dap")
 			dap.set_log_level("TRACE")
@@ -214,10 +224,31 @@ require("packer").startup(function(use)
 			dap.listeners.before.event_exited["dapui_config"] = function()
 				dapui.close({})
 			end
+
+			local ok, cmp = pcall(require, "cmp")
+			if ok then
+				cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+					cmp.config.sources({
+						{ name = "dap" },
+					}),
+				})
+			end
 		end,
 	})
 
-	use({ "L3MON4D3/LuaSnip" })
+	use({
+		"L3MON4D3/LuaSnip",
+		config = function()
+			local luasnip = require("luasnip")
+
+			vim.keymap.set({ "i", "s" }, "<C-k>", function()
+				luasnip.jump(1)
+			end)
+			vim.keymap.set({ "i", "s" }, "<C-j>", function()
+				luasnip.jump(-1)
+			end)
+		end,
+	})
 	use({
 		"hrsh7th/nvim-cmp",
 		requires = {
@@ -226,7 +257,7 @@ require("packer").startup(function(use)
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp",
-			"rcarriga/cmp-dap",
+			{ "rcarriga/cmp-dap", opt = true },
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -255,12 +286,6 @@ require("packer").startup(function(use)
 			cmp.setup.filetype("lua", {
 				cmp.config.sources({
 					{ name = "nvim_lua" },
-				}),
-			})
-
-			cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-				cmp.config.sources({
-					{ name = "dap" },
 				}),
 			})
 		end,
@@ -350,6 +375,10 @@ require("packer").startup(function(use)
 
 			vim.keymap.set("n", "<leader>g", vim.cmd.Neogit)
 		end,
+		keys = {
+			"<leader>g",
+			-- ["<leader>g"] = vim.cmd.Neogit,
+		},
 	})
 
 	use({
