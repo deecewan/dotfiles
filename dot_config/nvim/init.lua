@@ -97,12 +97,11 @@ require("packer").startup(function(use)
 			local builtin = require("telescope.builtin")
 
 			local find_files = function()
-				local opts = {} -- define here if you want to define something
 				vim.fn.system("git rev-parse --is-inside-work-tree")
 				if vim.v.shell_error == 0 then
-					builtin.git_files(opts)
+					builtin.git_files({ show_untracked = true, cwd = vim.fn.getcwd() })
 				else
-					builtin.find_files(opts)
+					builtin.find_files({})
 				end
 			end
 
