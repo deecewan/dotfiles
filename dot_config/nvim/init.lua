@@ -269,6 +269,7 @@ require("packer").startup(function(use)
 			local cmp = require("cmp")
 
 			cmp.setup({
+				native_menu = false,
 				preselect = cmp.PreselectMode.None,
 				snippet = {
 					expand = function(args)
@@ -424,6 +425,8 @@ require("packer").startup(function(use)
 			})
 		end,
 	})
+
+	use({ "NoahTheDuke/vim-just" })
 
 	use({
 		"vim-test/vim-test",
