@@ -1,6 +1,8 @@
 -- follow the leader
 vim.g.mapleader = " "
 
+vim.o.confirm = true
+
 -- allow pretty colors in the terminal
 vim.o.termguicolors = true
 -- allow hidden buffers - can background a changed buffer
