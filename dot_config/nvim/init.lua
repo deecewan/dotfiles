@@ -390,6 +390,8 @@ require("packer").startup(function(use)
 		},
 	})
 
+	-- there doesn't seem to be a slim grammar for treesitter
+	use("slim-template/vim-slim")
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
