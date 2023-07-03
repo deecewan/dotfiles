@@ -39,6 +39,7 @@ function nedit() {
   nvim --headless -c 'autocmd User PackerCompileDone quitall' -c 'PackerCompile'
   echo 'Done!'
   cz re-add
+  popd
 }
 # alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
 
