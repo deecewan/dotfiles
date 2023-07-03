@@ -114,9 +114,9 @@ require("packer").startup(function(use)
 			end
 
 			local find_string = function()
-				local input = vim.fn.input("Search > ")
+				-- local input = vim.fn.input("Search > ")
 
-				builtin.grep_string({ search = input })
+				builtin.live_grep({ debounce = 3000 })
 			end
 
 			vim.keymap.set("n", "<leader>fa", builtin.resume, { desc = "resume last picker" })
