@@ -30,7 +30,17 @@ alias l="ls -al"
 alias vi="nvim"
 alias cz="chezmoi"
 util.source_if_exists ~/projects/ferocia/up/.zsh-up-completion/init.zsh
-alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
+
+# edits the nvim config
+function nedit() {
+  pushd ~/.config/nvim
+  vi init.lua
+  echo -n 'Compiling config...'
+  nvim --headless -c 'autocmd User PackerCompileDone quitall' -c 'PackerCompile'
+  echo 'Done!'
+  cz re-add
+}
+# alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
 
 if [[ -n "$KITTY_PID" ]]; then
   alias icat="kitty +kitten icat"
