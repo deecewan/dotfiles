@@ -109,15 +109,22 @@ require("packer").startup(function(use)
 
 			local find_hidden = function()
 				builtin.find_files({
-					find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+					find_command = { "rg", "--files", "--no-ignore", "--hidden", "--glob", "!**/.git/*" },
 				})
+			end
+
+			local find_string = function()
+				local input = vim.fn.input("Search > ")
+
+				builtin.grep_string({ search = input })
 			end
 
 			vim.keymap.set("n", "<leader>fa", builtin.resume, { desc = "resume last picker" })
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "show buffers" })
 			vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "show all commands" })
 			vim.keymap.set("n", "<leader>ff", find_files, { desc = "find files" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "rg" })
+			-- vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "rg" })
+			vim.keymap.set("n", "<leader>fg", find_string, { desc = "rg" })
 			vim.keymap.set("n", "<leader>fh", find_hidden, { desc = "find hidden files" })
 			vim.keymap.set("n", "<leader>fm", function()
 				builtin.man_pages({ sections = { "ALL" } })
