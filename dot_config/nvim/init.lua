@@ -477,6 +477,7 @@ require("packer").startup(function(use)
 									filter = function(format_client)
 										return format_client.name == "null-ls"
 									end,
+									timeout = 10000,
 								})
 							end,
 						})
