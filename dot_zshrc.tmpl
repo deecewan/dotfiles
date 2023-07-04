@@ -67,6 +67,8 @@ fi
 
 util.source_if_exists "$HOME/.cargo/env"
 
+path=($path "$(yarn global bin)")
+
 # path=("$(beers --prefix)/bin" $path)
 
 if [ -f "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh" ]; then
