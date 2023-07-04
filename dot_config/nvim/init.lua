@@ -536,7 +536,7 @@ require("packer").startup(function(use)
 						end,
 					}),
 					null_ls.builtins.code_actions.eslint.with({}),
-					null_ls.builtins.formatting.eslint.with({}),
+					null_ls.builtins.formatting.eslint_d.with({}),
 					null_ls.builtins.diagnostics.eslint.with({}),
 					null_ls.builtins.diagnostics.selene.with({
 						extra_args = {
