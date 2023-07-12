@@ -64,7 +64,7 @@ nvim_lsp.tsserver.setup({
 			ignoredCodes = { 80006 },
 		},
 	},
-	filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+	filetypes = { "javascript", "typescript", "typescriptreact", "typescript.tsx" },
 	on_attach = function(client, bufnr)
 		client.server_capabilities.documentFormatting = false
 		client.server_capabilities.documentRangeFormatting = false
