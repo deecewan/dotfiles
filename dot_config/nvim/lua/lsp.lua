@@ -33,6 +33,11 @@ nvim_lsp.kotlin_language_server.setup({
 	capabilities = capabilities,
 })
 
+nvim_lsp.gopls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
 nvim_lsp.sorbet.setup({
 	cmd = { "srb", "tc", "--lsp", "-vvv" },
 	root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
