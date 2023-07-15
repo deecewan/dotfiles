@@ -195,6 +195,10 @@ require("packer").startup(function(use)
 				name = "vscode-cpptools",
 				type = "executable",
 				command = "OpenDebugAD7",
+				attach = {
+					pidProperty = "processId",
+					pidSelect = "ask",
+				},
 			}
 
 			dap.configurations.c = {
