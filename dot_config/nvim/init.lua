@@ -211,7 +211,6 @@ require("packer").startup(function(use)
 					end,
 					cwd = "${workspaceFolder}",
 					stopAtEntry = true,
-					runInTerminal = true,
 					MIMode = "lldb",
 				},
 				{
@@ -220,6 +219,10 @@ require("packer").startup(function(use)
 					request = "attach",
 					processId = "${command:pickProcess}",
 					MIMode = "lldb",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
 				},
 			}
 
