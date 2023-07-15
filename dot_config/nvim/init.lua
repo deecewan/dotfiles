@@ -207,6 +207,8 @@ require("packer").startup(function(use)
 					end,
 					cwd = "${workspaceFolder}",
 					stopAtEntry = true,
+					runInTerminal = true,
+					MIMode = "lldb",
 				},
 			}
 
