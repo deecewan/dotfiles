@@ -214,6 +214,13 @@ require("packer").startup(function(use)
 					runInTerminal = true,
 					MIMode = "lldb",
 				},
+				{
+					name = "Attach",
+					type = "cppdbg",
+					request = "attach",
+					processId = "${command:pickProcess}",
+					MIMode = "lldb",
+				},
 			}
 
 			dap.configurations.rust = {
