@@ -197,6 +197,19 @@ require("packer").startup(function(use)
 				command = "OpenDebugAD7",
 			}
 
+			dap.configurations.c = {
+				{
+					name = "Launch file",
+					type = "cppdbg",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopAtEntry = true,
+				},
+			}
+
 			dap.configurations.rust = {
 				{
 					name = "Launch file",
