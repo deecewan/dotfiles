@@ -64,6 +64,7 @@ require("packer").startup(function(use)
 
 	use({
 		"neovim/nvim-lspconfig",
+		requires = { { "folke/neodev.nvim" } },
 		config = function()
 			require("lsp")
 		end,
@@ -586,6 +587,7 @@ require("packer").startup(function(use)
 	use("tpope/vim-repeat")
 	use("alker0/chezmoi.vim")
 	-- use("gpanders/editorconfig.nvim")
+
 	use({
 		"folke/neodev.nvim",
 		config = function()
