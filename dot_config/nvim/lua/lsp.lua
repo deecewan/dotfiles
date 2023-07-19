@@ -1,4 +1,4 @@
-orocal nvim_lsp = require("lspconfig")
+local nvim_lsp = require("lspconfig")
 
 local capabilities = vim.tbl_deep_extend(
 	"force",
@@ -43,6 +43,9 @@ nvim_lsp.sorbet.setup({
 	root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
 	on_attach = on_attach,
 	capabilities = capabilities,
+	init_options = {
+		-- highlightUntyped = true,
+	},
 })
 
 nvim_lsp.flow.setup({
