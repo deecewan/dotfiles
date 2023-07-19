@@ -1,4 +1,4 @@
-local nvim_lsp = require("lspconfig")
+orocal nvim_lsp = require("lspconfig")
 
 local capabilities = vim.tbl_deep_extend(
 	"force",
@@ -44,7 +44,7 @@ nvim_lsp.sorbet.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	init_options = {
-		highlightUntyped = true,
+		-- highlightUntyped = true,
 	},
 })
 
