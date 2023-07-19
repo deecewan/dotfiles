@@ -43,9 +43,6 @@ nvim_lsp.sorbet.setup({
 	root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
 	on_attach = on_attach,
 	capabilities = capabilities,
-	init_options = {
-		-- highlightUntyped = true,
-	},
 })
 
 nvim_lsp.flow.setup({
