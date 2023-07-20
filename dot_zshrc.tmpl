@@ -43,6 +43,10 @@ function nedit() {
 }
 # alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
 
+function esc() {
+  printf "\x1B${@}"
+}
+
 if [[ -n "$KITTY_PID" ]]; then
   alias icat="kitty +kitten icat"
   alias kdiff="kitty +kitten diff"
