@@ -44,7 +44,7 @@ nvim_lsp.sorbet.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	-- init_options = {
-	--   highlightUntyped = true,
+	-- 	highlightUntyped = true,
 	-- },
 })
 

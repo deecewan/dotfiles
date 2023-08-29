@@ -64,7 +64,6 @@ require("packer").startup(function(use)
 
 	use({
 		"neovim/nvim-lspconfig",
-		requires = { { "folke/neodev.nvim" } },
 		config = function()
 			require("lsp")
 		end,
@@ -196,35 +195,6 @@ require("packer").startup(function(use)
 				name = "vscode-cpptools",
 				type = "executable",
 				command = "OpenDebugAD7",
-				attach = {
-					pidProperty = "processId",
-					pidSelect = "ask",
-				},
-			}
-
-			dap.configurations.c = {
-				{
-					name = "Launch file",
-					type = "cppdbg",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-					stopAtEntry = true,
-					MIMode = "lldb",
-				},
-				{
-					name = "Attach",
-					type = "cppdbg",
-					request = "attach",
-					processId = "${command:pickProcess}",
-					MIMode = "lldb",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-				},
 			}
 
 			dap.configurations.rust = {
@@ -587,7 +557,6 @@ require("packer").startup(function(use)
 	use("tpope/vim-repeat")
 	use("alker0/chezmoi.vim")
 	-- use("gpanders/editorconfig.nvim")
-
 	use({
 		"folke/neodev.nvim",
 		config = function()
