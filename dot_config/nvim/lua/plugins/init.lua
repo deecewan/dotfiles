@@ -39,6 +39,11 @@ return {
 	},
 	{
 		"folke/which-key.nvim",
+		event = "VeryLazy",
+		init = function()
+			vim.o.timeout = true
+			vim.o.timeoutlen = 300
+		end,
 	},
 	{
 		"folke/todo-comments.nvim",
@@ -128,7 +133,7 @@ return {
 			integrations = { diffview = true },
 		},
 		keys = {
-			{ "<leader>g", ":Neogit" },
+			{ "<leader>g", ":Neogit<CR>" },
 		},
 	},
 	{
