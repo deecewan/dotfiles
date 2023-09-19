@@ -41,6 +41,7 @@ return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		init = function()
+			vim.print("hello from whichkey")
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300
 		end,
@@ -152,4 +153,7 @@ return {
 			{ "tv", ":TestVisit", desc = "Open last-run test" },
 		},
 	},
+  {
+    "edluffy/hologram.nvim"
+  }
 }
