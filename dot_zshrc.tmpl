@@ -16,7 +16,7 @@ prompt pure
 
 util.source_if_exists ~/.fzf.zsh
 
-export IOS_VERSION=14.5
+export IOS_VERSION=15.0
 export EDITOR=nvim
 
 export FASTLANE_SKIP_UPDATE_CHECK=1
@@ -35,9 +35,6 @@ util.source_if_exists ~/projects/ferocia/up/.zsh-up-completion/init.zsh
 function nedit() {
   pushd ~/.config/nvim
   vi init.lua
-  echo -n 'Compiling config...'
-  nvim --headless -c 'autocmd User PackerCompileDone quitall' -c 'PackerCompile'
-  echo 'Done!'
   cz re-add
   popd
 }
