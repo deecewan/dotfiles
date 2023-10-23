@@ -146,10 +146,10 @@ return {
 		end,
 		keys = {
 			{ "<C-o>", [[<C-\><C-n>]], mode = "t" },
-			{ "tn", ":TestNearest", desc = "Run test under cursor" },
-			{ "tf", ":TestFile", desc = "Run all tests in file" },
-			{ "tl", ":TestLast", desc = "Re-run last test" },
-			{ "tv", ":TestVisit", desc = "Open last-run test" },
+			{ "tn", ":TestNearest<CR>", desc = "Run test under cursor" },
+			{ "tf", ":TestFile<CR>", desc = "Run all tests in file" },
+			{ "tl", ":TestLast<CR>", desc = "Re-run last test" },
+			{ "tv", ":TestVisit<CR>", desc = "Open last-run test" },
 		},
 	},
 	{
