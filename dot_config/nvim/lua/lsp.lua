@@ -26,6 +26,13 @@ local on_attach = function(_, bufnr)
 		vim.lsp.buf.code_action,
 		vim.tbl_extend("force", opts, { desc = "show lsp code actions" })
 	)
+
+	vim.keymap.set(
+		"n",
+		"<leader>lr",
+		vim.lsp.buf.rename,
+		vim.tbl_extend("force", opts, { desc = "rename the item under the cursor" })
+	)
 end
 
 nvim_lsp.kotlin_language_server.setup({
