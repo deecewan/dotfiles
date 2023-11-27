@@ -20,6 +20,7 @@ return {
 			"kevinhwang91/promise-async",
 			"neovim/nvim-lspconfig",
 		},
+    config = true,
 		keys = {
 			{
 				"zR",
@@ -92,6 +93,7 @@ return {
 	{
 		"j-hui/fidget.nvim",
 		tag = "legacy",
+    config = true,
 	},
 	{
 		"mbbill/undotree",
