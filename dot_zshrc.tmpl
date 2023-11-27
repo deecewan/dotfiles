@@ -11,12 +11,11 @@ for f in ~/.config/zsh/*; do
   source "$f"
 done
 
-autoload -U promptinit; promptinit
-prompt pure
+eval $(starship init zsh)
 
 util.source_if_exists ~/.fzf.zsh
 
-export IOS_VERSION=15.0
+export IOS_VERSION=16.4
 export IOS_SIMULATOR="iPhone 13 Pro"
 export EDITOR=nvim
 
