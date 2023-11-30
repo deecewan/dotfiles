@@ -90,6 +90,7 @@ return {
 		opts = {
 			library = { plugins = { "nvim-dap-ui" }, types = true },
 			lspconfig = true,
+			pathStrict = true,
 		},
 		ft = "lua",
 	},
