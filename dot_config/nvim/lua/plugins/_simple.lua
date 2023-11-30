@@ -6,6 +6,5 @@ return {
 	"AndrewRadev/splitjoin.vim",
 	"tpope/vim-repeat",
 	"alker0/chezmoi.vim",
-  "slim-template/vim-slim",
-  "NoahTheDuke/vim-just",
+	"slim-template/vim-slim",
 }
