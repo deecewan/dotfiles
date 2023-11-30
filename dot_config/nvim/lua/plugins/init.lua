@@ -89,6 +89,7 @@ return {
 		lazy = true,
 		opts = {
 			library = { plugins = { "nvim-dap-ui" }, types = true },
+			lspconfig = true,
 		},
 		ft = "lua",
 	},
