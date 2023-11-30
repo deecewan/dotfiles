@@ -20,7 +20,7 @@ return {
 			"kevinhwang91/promise-async",
 			"neovim/nvim-lspconfig",
 		},
-    config = true,
+		config = true,
 		keys = {
 			{
 				"zR",
@@ -86,16 +86,16 @@ return {
 	},
 	{
 		"folke/neodev.nvim",
-		event = "VeryLazy",
+		lazy = true,
 		opts = {
 			library = { plugins = { "nvim-dap-ui" }, types = true },
 		},
-    ft = "lua",
+		ft = "lua",
 	},
 	{
 		"j-hui/fidget.nvim",
 		tag = "legacy",
-    config = true,
+		config = true,
 	},
 	{
 		"mbbill/undotree",
