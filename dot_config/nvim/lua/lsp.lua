@@ -135,3 +135,8 @@ nvim_lsp.lua_ls.setup({
 		},
 	},
 })
+
+nvim_lsp.taplo.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
