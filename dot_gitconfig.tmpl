@@ -20,6 +20,7 @@
   hyperlinks = true
 [alias]
   commito = commit
+  clean-branches = "!git fetch --all; git branch --merged origin/main | rg -v '(^\\*)|main' | xargs -n 1 git branch -d"
 [init]
 	defaultBranch = main
 [interactive]
