@@ -53,7 +53,10 @@ load_env() {
   done
 }
 
-autoload -U add-zsh-hook
-add-zsh-hook chpwd load_env
+# TODO: this is currently disabled because it loads _all_ the environment files
+# for all environments. this is bad if there is `.env.{local,prod}`
 
-load_env
+# autoload -U add-zsh-hook
+# add-zsh-hook chpwd load_env
+
+# load_env
