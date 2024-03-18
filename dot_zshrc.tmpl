@@ -62,6 +62,10 @@ util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 
 source ~/.asdf/asdf.sh
 
+if [[ -n "$(command -v mise)" ]]; then
+  eval "$(mise activate zsh)"
+fi
+
 if [[ -d "$HOME/bin" ]]; then
   path+=("$HOME/bin")
 fi
