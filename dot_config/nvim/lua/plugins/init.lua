@@ -160,6 +160,11 @@ return {
 		},
 	},
 	{
-		"edluffy/hologram.nvim",
+		"AndrewRadev/splitjoin.vim",
+		submodules = false,
+		keys = {
+			{ "gS", ":SplitjoinSplit<CR>" },
+			{ "gJ", ":SplitjoinJoin<CR>" },
+		},
 	},
 }
