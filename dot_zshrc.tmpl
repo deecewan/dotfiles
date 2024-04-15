@@ -52,15 +52,11 @@ fi
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
-util.source_if_exists ~/.asdf/plugins/java/set-java-home.zsh
-
 {{ if eq .osid "darwin" -}}
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
 {{- end }}
 
 util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
-
-source ~/.asdf/asdf.sh
 
 if [[ -n "$(command -v mise)" ]]; then
   eval "$(mise activate zsh)"
