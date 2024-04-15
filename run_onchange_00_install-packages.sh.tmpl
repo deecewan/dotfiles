@@ -13,6 +13,8 @@ packages=(
 
 {{ if eq .osid "linux-ubuntu" }}
 
+# i need to add mise here somehow
+
 packages+=(
   build-essential
   keychain
@@ -39,6 +41,7 @@ packages+=(
   rust-analyzer
   xh
   starship
+  mise
 )
 
 echo "Installing the following from homebrew:"
