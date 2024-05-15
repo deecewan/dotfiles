@@ -56,6 +56,13 @@ return {
 			keywords = {
 				TODO = { icon = " ", color = "info" },
 			},
+      highlight = {
+        keyword = "bg",
+				pattern = [[.*<(KEYWORDS)>(\(.*\))?\s*:]],
+      },
+      search = {
+        pattern = [[\b(KEYWORDS)(\(.*\))?:]],
+      }
 		},
 	},
 	{
@@ -147,8 +154,14 @@ return {
 		"vim-test/vim-test",
 		init = function()
 			vim.cmd([[
-        let test#strategy = "neovim"
+        let test#strategy = "neovim_sticky"
         let test#neovim#term_position = "vert"
+        let g:test#neovim_sticky#kill_previous = 1  " Try to abort previous run
+        let g:test#preserve_screen = 0  " Clear screen from previous run
+        let test#neovim_sticky#reopen_window = 1 " Reopen terminal split if not visible
+
+        let test#javascript#jest#options = "--config jest.integration.config.js"
+
       ]])
 		end,
 		keys = {
