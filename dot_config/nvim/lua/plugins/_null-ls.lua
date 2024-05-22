@@ -2,7 +2,7 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 return {
 	"nvimtools/none-ls.nvim",
-	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim" },
+	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
 
@@ -85,9 +85,9 @@ return {
 						end
 					end,
 				}),
-				null_ls.builtins.code_actions.eslint.with({}),
-				null_ls.builtins.formatting.eslint_d.with({}),
-				null_ls.builtins.diagnostics.eslint.with({}),
+				require("none-ls.code_actions.eslint_d").with({}),
+				require("none-ls.formatting.eslint_d").with({}),
+				require("none-ls.diagnostics.eslint_d").with({}),
 				null_ls.builtins.diagnostics.selene.with({
 					extra_args = {
 						"--config",
