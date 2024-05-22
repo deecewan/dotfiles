@@ -2,7 +2,7 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 return {
 	"nvimtools/none-ls.nvim",
-	dependencies = { "nvim-lua/plenary.nvim" },
+	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
 
@@ -30,9 +30,10 @@ return {
 				-- null_ls.builtins.formatting.rustfmt,
 				null_ls.builtins.formatting.stylua,
 
-				null_ls.builtins.diagnostics.shellcheck.with({
+				require('none-ls-shellcheck.diagnostics').with({
 					diagnostics_format = "[#{c}] #{m} (#{s})",
 				}),
+        require("none-ls-shellcheck.code_actions"),
 
 				null_ls.builtins.formatting.rubocop.with({
 					condition = function(utils)
