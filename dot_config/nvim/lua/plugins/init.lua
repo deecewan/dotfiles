@@ -106,7 +106,7 @@ return {
 		tag = "legacy",
 		opts = {
 			notification = {
-				override_vim_notify = false,
+				override_vim_notify = true,
 			},
 		},
 		config = true,
