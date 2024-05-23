@@ -104,10 +104,11 @@ return {
 	{
 		"j-hui/fidget.nvim",
 		tag = "legacy",
-		config = function()
-			require("fidget").setup({})
-			vim.notify = require("fidget.notification").notify
-		end,
+		opts = {
+			notification = {
+				override_vim_notify = true,
+			},
+		},
 	},
 	{
 		"mbbill/undotree",
