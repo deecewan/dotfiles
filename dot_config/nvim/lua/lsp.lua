@@ -13,7 +13,7 @@ local on_attach = function(_, bufnr)
 		buffer = bufnr,
 	}
 
-	-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set(
 		"n",

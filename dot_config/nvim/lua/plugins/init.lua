@@ -56,13 +56,13 @@ return {
 			keywords = {
 				TODO = { icon = " ", color = "info" },
 			},
-      highlight = {
-        keyword = "bg",
+			highlight = {
+				keyword = "bg",
 				pattern = [[.*<(KEYWORDS)>(\(.*\))?\s*:]],
-      },
-      search = {
-        pattern = [[\b(KEYWORDS)(\(.*\))?:]],
-      }
+			},
+			search = {
+				pattern = [[\b(KEYWORDS)(\(.*\))?:]],
+			},
 		},
 	},
 	{
@@ -104,6 +104,11 @@ return {
 	{
 		"j-hui/fidget.nvim",
 		tag = "legacy",
+		opts = {
+			notification = {
+				override_vim_notify = false,
+			},
+		},
 		config = true,
 	},
 	{
