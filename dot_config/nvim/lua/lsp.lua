@@ -40,15 +40,7 @@ nvim_lsp.gopls.setup({
 	capabilities = capabilities,
 })
 
-nvim_lsp.sorbet.setup({
-	cmd = { "srb", "tc", "--lsp", "-vvv" },
-	root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
-	on_attach = on_attach,
-	capabilities = capabilities,
-	-- init_options = {
-	-- 	highlightUntyped = true,
-	-- },
-})
+require("lsp.sorbet").setup(on_attach, capabilities)
 
 nvim_lsp.flow.setup({
 	on_attach = on_attach,
