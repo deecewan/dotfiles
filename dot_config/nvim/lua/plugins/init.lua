@@ -103,7 +103,7 @@ return {
 	},
 	{
 		"j-hui/fidget.nvim",
-		tag = "legacy",
+		-- tag = "legacy",
 		opts = {
 			notification = {
 				override_vim_notify = true,
