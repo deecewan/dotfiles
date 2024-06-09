@@ -1,7 +1,14 @@
 return {
 	"folke/trouble.nvim",
 	-- "~/projects/folke/trouble.nvim",
+  lazy = true,
 	dependencies = "kyazdani42/nvim-web-devicons",
+	cmd = { "Trouble" },
+  keys = {
+    "<leader>t",
+    "gd",
+    "gR",
+  },
 	config = function()
 		local trouble = require("trouble")
 

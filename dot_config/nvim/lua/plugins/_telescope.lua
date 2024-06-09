@@ -45,4 +45,7 @@ return {
 	keys = {
 		"<leader>f",
 	},
+	command = {
+		"Telescope",
+	},
 }
