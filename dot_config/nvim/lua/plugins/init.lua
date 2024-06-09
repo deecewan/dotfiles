@@ -92,14 +92,16 @@ return {
 		end,
 	},
 	{
-		"folke/neodev.nvim",
-		lazy = true,
+		"folke/lazydev.nvim",
+		dependencies = { "Bilal2453/luvit-meta" },
+		ft = "lua", -- only load on lua files
 		opts = {
-			library = { plugins = { "nvim-dap-ui" }, types = true },
-			lspconfig = true,
-			pathStrict = true,
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+			},
 		},
-		ft = "lua",
 	},
 	{
 		"j-hui/fidget.nvim",
