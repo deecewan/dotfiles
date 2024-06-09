@@ -186,9 +186,4 @@ return {
 			{ "gJ", ":SplitjoinJoin<CR>" },
 		},
 	},
-	{
-		"deecewan/nvim-local-config",
-		dir = "~/projects/deecewan/nvim-local-config",
-		config = true,
-	},
 }
