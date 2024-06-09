@@ -126,7 +126,7 @@ end
 
 function M.setup(on_attach, capabilities)
 	nvim_lsp.sorbet.setup({
-		cmd = { "srb", "tc", "--lsp", "-vvv" },
+		cmd = { "srb", "tc", "--lsp" },
 		root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
 		on_attach = on_attach,
 		capabilities = capabilities,
