@@ -43,6 +43,7 @@ return {
 		cmp.setup.filetype("lua", {
 			cmp.config.sources({
 				{ name = "nvim_lua" },
+				{ name = "lazydev", group_index = 0 },
 			}),
 		})
 	end,
