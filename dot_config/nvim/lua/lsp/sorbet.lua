@@ -34,14 +34,27 @@ local function get_sorbet_file(uri, client)
 	})
 end
 
--- local function setup_auto_commands()
--- 	vim.api.nvim_create_autocmd({ "BufReadCmd", "FileReadCmd" }, {
--- 		pattern = { "sorbet:*" },
--- 		callback = function(ev)
--- 			vim.print({ ev })
--- 		end,
--- 	})
--- end
+local function setup_auto_commands()
+	vim.api.nvim_create_autocmd({ "BufReadCmd", "FileReadCmd" }, {
+		pattern = { "*/sorbet:*" },
+		callback = function(ev)
+      local file = ev.file
+      local bufnr = ev.buf
+      vim.api.nvim_set_option_value("ft", "ruby", { buf = bufnr })
+      local client = vim.lsp.get_clients({ name = "sorbet" })[1]
+
+      local res = get_sorbet_file(file, client)["result"]
+      local lines = vim.split(res.text, "\n")
+
+      vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+      vim.api.nvim_set_option_value("ft", res.languageId, { buf = bufnr })
+      vim.api.nvim_set_option_value("readonly", true, { buf = bufnr })
+      vim.api.nvim_set_option_value("modified", false, { buf = bufnr })
+      vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
+      vim.lsp.buf_attach_client(bufnr, client.id)
+		end,
+	})
+end
 
 local function get_virtual_text_document(uri, client)
 	local res = get_sorbet_file(uri, client)
@@ -125,6 +138,8 @@ local function override_trouble()
 end
 
 function M.setup(on_attach, capabilities)
+  setup_auto_commands()
+
 	nvim_lsp.sorbet.setup({
 		cmd = { "srb", "tc", "--lsp" },
 		root_dir = nvim_lsp.util.root_pattern("sorbet", "Gemfile"),
@@ -144,7 +159,7 @@ function M.setup(on_attach, capabilities)
 		},
 	})
 
-	override_trouble()
+	-- override_trouble()
 end
 
 return M
