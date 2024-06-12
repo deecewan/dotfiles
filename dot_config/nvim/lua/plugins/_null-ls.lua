@@ -1,7 +1,57 @@
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
+---comes from none-ls.nvim. i can't figure out how to actually import the types
+---@class ConditionalUtils
+---@field has_file fun(patterns: ...): boolean checks if file exists
+---@field root_has_file fun(patterns: ...): boolean checks if file exists at root level
+---@field root_has_file_matches fun(pattern: string): boolean checks if pattern matches a file at root level
+---@field root_matches fun(pattern: string): boolean checks if root matches pattern
+
+---gets the package.json
+---@param utils ConditionalUtils
+---@returns table?
+local function parse_package_json(utils)
+	if utils.root_has_file("package.json") then
+		local file = io.open("package.json")
+		if not file then
+			return nil
+		end
+		local content = file:read("*all")
+		file:close()
+
+		local parsed = vim.json.decode(content)
+
+		return parsed
+	end
+end
+
+---@param utils ConditionalUtils
+---@returns boolean # the project has eslint
+local function has_eslint(utils)
+  local has_file = utils.root_has_file({
+    ".eslintrc",
+    ".eslintrc.js",
+    ".eslintrc.json",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs",
+  })
+
+
+  -- if the file is in here, we have eslint
+  if has_file then
+    return true
+  end
+
+  local pjson = parse_package_json(utils)
+  vim.print({ pjson = pjson })
+
+  return pjson and pjson.eslintConfig ~= nil
+end
+
 return {
 	"nvimtools/none-ls.nvim",
+  lazy = true,
 	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
@@ -30,10 +80,10 @@ return {
 				-- null_ls.builtins.formatting.rustfmt,
 				null_ls.builtins.formatting.stylua,
 
-				require('none-ls-shellcheck.diagnostics').with({
+				require("none-ls-shellcheck.diagnostics").with({
 					diagnostics_format = "[#{c}] #{m} (#{s})",
 				}),
-        require("none-ls-shellcheck.code_actions"),
+				require("none-ls-shellcheck.code_actions"),
 
 				null_ls.builtins.formatting.rubocop.with({
 					condition = function(utils)
@@ -67,27 +117,13 @@ return {
 							return has_file
 						end
 
-						if utils.root_has_file("package.json") then
-							local file = io.open("package.json")
-							if not file then
-								return false
-							end
-							local content = file:read("*all")
-							file:close()
-
-							local parsed = vim.json.decode(content)
-
-							if not parsed then
-								return false
-							end
-
-							return parsed["prettier"] ~= nil
-						end
+						local pjson = parse_package_json(utils)
+						return pjson and pjson.prettier ~= nil
 					end,
 				}),
-				require("none-ls.code_actions.eslint_d").with({}),
-				require("none-ls.formatting.eslint_d").with({}),
-				require("none-ls.diagnostics.eslint_d").with({}),
+				require("none-ls.code_actions.eslint_d").with({ condition = has_eslint }),
+				require("none-ls.formatting.eslint_d").with({ condition = has_eslint }),
+				require("none-ls.diagnostics.eslint_d").with({ condition = has_eslint }),
 				null_ls.builtins.diagnostics.selene.with({
 					extra_args = {
 						"--config",

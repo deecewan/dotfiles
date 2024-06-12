@@ -5,6 +5,7 @@ return {
       "theHamsta/nvim-dap-virtual-text",
       "rcarriga/nvim-dap-ui",
       "suketa/nvim-dap-ruby",
+      "jbyuki/one-small-step-for-vimkind",
     },
     lazy = true,
     keys = { "<leader>d" },
@@ -56,6 +57,18 @@ return {
       dap.adapters.typescriptreact = js
       dap.adapters.javascriptreact = js
 
+      dap.configurations.lua = {
+        {
+          type = 'nlua',
+          request = 'attach',
+          name = "Attach to running Neovim instance",
+        }
+      }
+
+      dap.adapters.nlua = function(callback, config)
+        callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+      end
+
       local dapui = require("dapui")
 
       dapui.setup()
@@ -78,6 +91,8 @@ return {
           }),
         })
       end
+
+      vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
     end,
   },
   {
