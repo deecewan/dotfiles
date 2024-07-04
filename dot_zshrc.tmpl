@@ -7,6 +7,10 @@ bindkey -e
 eval $({{.homebrewDir}}/bin/brew shellenv)
 {{- end }}
 
+if [[ -n "$(command -v mise)" ]]; then
+  eval "$(mise activate zsh)"
+fi
+
 for f in ~/.config/zsh/*; do
   source "$f"
 done
@@ -15,8 +19,6 @@ eval $(starship init zsh)
 
 util.source_if_exists ~/.fzf.zsh
 
-export IOS_VERSION=16.4
-export IOS_SIMULATOR="iPhone 13 Pro"
 export EDITOR=nvim
 
 export FASTLANE_SKIP_UPDATE_CHECK=1
@@ -29,6 +31,7 @@ alias l="ls -al"
 
 alias vi="nvim"
 alias cz="chezmoi"
+
 util.source_if_exists ~/projects/ferocia/up/.zsh-up-completion/init.zsh
 
 # edits the nvim config
@@ -38,7 +41,10 @@ function nedit() {
   cz re-add
   popd
 }
-# alias nedit="pushd ~/.config/nvim; vi init.lua; popd"
+
+function zedit() {
+  cz edit ~/.zshrc
+}
 
 function esc() {
   printf "\x1B${@}"
@@ -58,20 +64,10 @@ fpath+=("$(brew --prefix)/share/zsh/site-functions")
 
 util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 
-if [[ -n "$(command -v mise)" ]]; then
-  eval "$(mise activate zsh)"
-fi
-
 if [[ -d "$HOME/bin" ]]; then
   path+=("$HOME/bin")
 fi
 
 util.source_if_exists "$HOME/.cargo/env"
 
-path=($path "$(yarn global bin)")
-
 # path=("$(beers --prefix)/bin" $path)
-
-if [ -f "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh" ]; then
-  source "/Users/david/projects/ferocia/johanna-native/cli/scripts/completions.zsh"
-fi
