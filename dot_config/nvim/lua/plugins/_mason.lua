@@ -8,7 +8,7 @@ return {
 		require("mason-lspconfig").setup()
 
 		local reg = require("mason-registry")
-		local should_install = false
+		local should_install = true
 
 		---@param name string
 		local install_if_missing = function(name)
