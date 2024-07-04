@@ -1,0 +1,42 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$custom\
+$jobs\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$cmd_duration\
+$character\
+"""
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "yellow"
+
+[jobs]
+number_threshold = 1
+
+# i have no idea how to get this to actually run in the background, short of a
+# web server that responds instantly and then runs the required command in the
+# background
+[custom.git_fetch]
+disabled = true
+when = true
+require_repo = true
+command = """
+  do_fetch() {
+    # get git folder
+    dir=$(git rev-parse --show-toplevel 2> /dev/null)
+    last_fetch=$(stat -f %a $dir)
+    time_now=$(date +%s)
+    timeout=1
+    if [[ $((time_now - timeout)) -gt $((last_fetch)) ]]; then
+      (git fetch 2> /dev/null)
+    fi
+  }
+
+  do_fetch &
+"""
