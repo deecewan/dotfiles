@@ -4,3 +4,6 @@
 node = "20.15.0"
 python = "3.12.4"
 ruby = "3.2.2"
+
+[env]
+_.file = ["~/.env", ".env"]
