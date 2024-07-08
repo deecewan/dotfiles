@@ -6,4 +6,10 @@ python = "3.12.4"
 ruby = "3.2.2"
 
 [env]
-_.file = ["~/.env"]
+'_'.file = ["~/.env"]
+MISE_ENV_FILE = ".env"
+
+[settings]
+experimental = true
+status.show_env = true
+status.show_tools = true
