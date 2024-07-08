@@ -28,31 +28,29 @@ end
 ---@param utils ConditionalUtils
 ---@returns boolean # the project has eslint
 local function has_eslint(utils)
-  local has_file = utils.root_has_file({
-    ".eslintrc",
-    ".eslintrc.js",
-    ".eslintrc.json",
-    "eslint.config.js",
-    "eslint.config.cjs",
-    "eslint.config.mjs",
-  })
+	local has_file = utils.root_has_file({
+		".eslintrc",
+		".eslintrc.js",
+		".eslintrc.json",
+		"eslint.config.js",
+		"eslint.config.cjs",
+		"eslint.config.mjs",
+	})
 
+	-- if the file is in here, we have eslint
+	if has_file then
+		return true
+	end
 
-  -- if the file is in here, we have eslint
-  if has_file then
-    return true
-  end
+	local pjson = parse_package_json(utils)
 
-  local pjson = parse_package_json(utils)
-  vim.print({ pjson = pjson })
-
-  return pjson and pjson.eslintConfig ~= nil
+	return pjson and pjson.eslintConfig ~= nil
 end
 
 return {
 	"nvimtools/none-ls.nvim",
-  lazy = true,
-  event = "VeryLazy",
+	lazy = true,
+	event = "VeryLazy",
 	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
