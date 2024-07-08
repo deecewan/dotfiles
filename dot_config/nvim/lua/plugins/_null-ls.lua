@@ -52,6 +52,7 @@ end
 return {
 	"nvimtools/none-ls.nvim",
   lazy = true,
+  event = "VeryLazy",
 	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
