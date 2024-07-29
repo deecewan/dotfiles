@@ -8,7 +8,9 @@ local capabilities = vim.tbl_deep_extend(
 
 -- vim.lsp.set_log_level("debug")
 
-local on_attach = function(_, bufnr)
+local formatting_group = vim.api.nvim_create_augroup("LspFormatting", {})
+
+local on_attach = function(client, bufnr)
 	local opts = {
 		buffer = bufnr,
 	}
@@ -28,6 +30,19 @@ local on_attach = function(_, bufnr)
 		vim.lsp.buf.rename,
 		vim.tbl_extend("force", opts, { desc = "rename the item under the cursor" })
 	)
+
+	vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, vim.tbl_extend("force", opts, { desc = "format the file" }))
+
+	if client.supports_method("textDocument/formatting") then
+		vim.api.nvim_clear_autocmds({ group = formatting_group, buffer = bufnr })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = formatting_group,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format()
+			end,
+		})
+	end
 end
 
 nvim_lsp.kotlin_language_server.setup({
