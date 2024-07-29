@@ -22,6 +22,8 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 -- set code columns
 vim.o.cc = "80,100"
+-- set my preferred text width
+vim.o.textwidth = 80
 -- turn on undofile for heaps long undos
 vim.o.undofile = true
 -- show preview of replacements

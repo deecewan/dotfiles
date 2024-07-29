@@ -42,6 +42,11 @@ nvim_lsp.gopls.setup({
 
 require("lsp.sorbet").setup(on_attach, capabilities)
 
+nvim_lsp.standardrb.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
 nvim_lsp.flow.setup({
 	on_attach = on_attach,
 	on_new_config = function(new_config, new_root_dir)
