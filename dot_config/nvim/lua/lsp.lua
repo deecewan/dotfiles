@@ -147,3 +147,16 @@ nvim_lsp.taplo.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
+
+nvim_lsp.ruby_lsp.setup({
+	on_attach = function(client, bufnr)
+		client.commands["rubyLsp.runTask"] = function(command, context)
+			vim.print("running command")
+			vim.print(command)
+			vim.print(context)
+		end
+
+		on_attach(client, bufnr)
+	end,
+	commands_created = true,
+})
