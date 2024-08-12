@@ -27,6 +27,8 @@ end
 
 ---@param utils ConditionalUtils
 ---@returns boolean # the project has eslint
+-- this needs work - it doesn't currently work because it starts too high up the
+-- tree
 local function has_eslint(utils)
 	local has_file = utils.root_has_file({
 		".eslintrc",
@@ -37,12 +39,15 @@ local function has_eslint(utils)
 		"eslint.config.mjs",
 	})
 
+	vim.print({ has_file = has_file })
+
 	-- if the file is in here, we have eslint
 	if has_file then
 		return true
 	end
 
 	local pjson = parse_package_json(utils)
+	vim.print({ config = pjson.eslintConfig })
 
 	return pjson and pjson.eslintConfig ~= nil
 end
@@ -120,9 +125,9 @@ return {
 						return pjson and pjson.prettier ~= nil
 					end,
 				}),
-				require("none-ls.code_actions.eslint_d").with({ condition = has_eslint }),
-				require("none-ls.formatting.eslint_d").with({ condition = has_eslint }),
-				require("none-ls.diagnostics.eslint_d").with({ condition = has_eslint }),
+				require("none-ls.code_actions.eslint_d"), --.with({ condition = has_eslint }),
+				require("none-ls.formatting.eslint_d"), --.with({ condition = has_eslint }),
+				require("none-ls.diagnostics.eslint_d"), --.with({ condition = has_eslint }),
 				null_ls.builtins.diagnostics.selene.with({
 					extra_args = {
 						"--config",
