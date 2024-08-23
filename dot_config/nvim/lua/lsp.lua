@@ -1,4 +1,5 @@
 local nvim_lsp = require("lspconfig")
+local util = require("lspconfig.util")
 
 local capabilities = vim.tbl_deep_extend(
 	"force",
@@ -66,13 +67,6 @@ nvim_lsp.flow.setup({
 })
 
 nvim_lsp.tsserver.setup({
-	-- cmd = {
-	-- 	"typescript-language-server",
-	-- 	"--stdio",
-	-- 	"--log-level=4",
-	-- 	"--tsserver-log-file=/Users/david/ts-log.log",
-	-- 	"--tsserver-log-verbosity=verbose",
-	-- },
 	settings = {
 		diagnostics = {
 			ignoredCodes = { 80006 },
@@ -109,6 +103,13 @@ nvim_lsp.clangd.setup({
 	capabilities = capabilities,
 })
 
+nvim_lsp.syntax_tree.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	-- we only wanna run this in a directory with a .streerc
+	root_dir = util.root_pattern(".streerc"),
+})
+
 nvim_lsp.lua_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -141,17 +142,4 @@ nvim_lsp.lua_ls.setup({
 nvim_lsp.taplo.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-})
-
-nvim_lsp.ruby_lsp.setup({
-	on_attach = function(client, bufnr)
-		client.commands["rubyLsp.runTask"] = function(command, context)
-			vim.print("running command")
-			vim.print(command)
-			vim.print(context)
-		end
-
-		on_attach(client, bufnr)
-	end,
-	commands_created = true,
 })
