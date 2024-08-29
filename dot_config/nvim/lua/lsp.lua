@@ -33,6 +33,7 @@ local on_attach = function(client, bufnr)
 	)
 
 	vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, vim.tbl_extend("force", opts, { desc = "format the file" }))
+	vim.keymap.set("v", "F", vim.lsp.buf.format, vim.tbl_extend("force", opts, { desc = "format the range" }))
 
 	if client.supports_method("textDocument/formatting") then
 		vim.api.nvim_clear_autocmds({ group = formatting_group, buffer = bufnr })
