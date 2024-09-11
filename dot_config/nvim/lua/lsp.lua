@@ -67,7 +67,7 @@ nvim_lsp.flow.setup({
 	capabilities = capabilities,
 })
 
-nvim_lsp.tsserver.setup({
+nvim_lsp.ts_ls.setup({
 	settings = {
 		diagnostics = {
 			ignoredCodes = { 80006 },
