@@ -38,20 +38,20 @@ local function setup_auto_commands()
 	vim.api.nvim_create_autocmd({ "BufReadCmd", "FileReadCmd" }, {
 		pattern = { "*/sorbet:*" },
 		callback = function(ev)
-      local file = ev.file
-      local bufnr = ev.buf
-      vim.api.nvim_set_option_value("ft", "ruby", { buf = bufnr })
-      local client = vim.lsp.get_clients({ name = "sorbet" })[1]
+			local file = ev.file
+			local bufnr = ev.buf
+			vim.api.nvim_set_option_value("ft", "ruby", { buf = bufnr })
+			local client = vim.lsp.get_clients({ name = "sorbet" })[1]
 
-      local res = get_sorbet_file(file, client)["result"]
-      local lines = vim.split(res.text, "\n")
+			local res = get_sorbet_file(file, client)["result"]
+			local lines = vim.split(res.text, "\n")
 
-      vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-      vim.api.nvim_set_option_value("ft", res.languageId, { buf = bufnr })
-      vim.api.nvim_set_option_value("readonly", true, { buf = bufnr })
-      vim.api.nvim_set_option_value("modified", false, { buf = bufnr })
-      vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
-      vim.lsp.buf_attach_client(bufnr, client.id)
+			vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+			vim.api.nvim_set_option_value("ft", res.languageId, { buf = bufnr })
+			vim.api.nvim_set_option_value("readonly", true, { buf = bufnr })
+			vim.api.nvim_set_option_value("modified", false, { buf = bufnr })
+			vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
+			vim.lsp.buf_attach_client(bufnr, client.id)
 		end,
 	})
 end
@@ -138,7 +138,7 @@ local function override_trouble()
 end
 
 function M.setup(on_attach, capabilities)
-  setup_auto_commands()
+	setup_auto_commands()
 
 	nvim_lsp.sorbet.setup({
 		cmd = { "srb", "tc", "--lsp" },
@@ -159,7 +159,7 @@ function M.setup(on_attach, capabilities)
 		},
 	})
 
-	-- override_trouble()
+	override_trouble()
 end
 
 return M
