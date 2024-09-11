@@ -100,6 +100,7 @@ return {
 			library = {
 				-- See the configuration section for more details
 				-- Load luvit types when the `vim.uv` word is found
+				vim.fn.expand("~/.config/nvim"),
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
 			},
 			integrations = {
