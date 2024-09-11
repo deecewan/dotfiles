@@ -2,3 +2,6 @@ std = "vim"
 
 [rules]
 global_usage = "allow"
+
+[lints]
+mixed_tables = "allow"
