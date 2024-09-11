@@ -103,6 +103,7 @@ return {
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
 			},
 			integrations = {
+				lspconfig = true,
 				cmp = true,
 			},
 		},
