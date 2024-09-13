@@ -9,6 +9,10 @@ local capabilities = vim.tbl_deep_extend(
 
 -- vim.lsp.set_log_level("debug")
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = "rounded",
+})
+
 local formatting_group = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local on_attach = function(client, bufnr)
