@@ -1,5 +1,6 @@
 local nvim_lsp = require("lspconfig")
 local util = require("lspconfig.util")
+local ms = require("vim.lsp.protocol").Methods
 
 local capabilities = vim.tbl_deep_extend(
 	"force",
@@ -9,7 +10,7 @@ local capabilities = vim.tbl_deep_extend(
 
 -- vim.lsp.set_log_level("debug")
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+vim.lsp.handlers[ms.textDocument_hover] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "rounded",
 })
 
@@ -39,7 +40,7 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, vim.tbl_extend("force", opts, { desc = "format the file" }))
 	vim.keymap.set("v", "F", vim.lsp.buf.format, vim.tbl_extend("force", opts, { desc = "format the range" }))
 
-	if client.supports_method("textDocument/formatting") then
+	if client.supports_method(ms.textDocument_formatting) then
 		vim.api.nvim_clear_autocmds({ group = formatting_group, buffer = bufnr })
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			group = formatting_group,
