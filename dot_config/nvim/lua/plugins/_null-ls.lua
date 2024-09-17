@@ -97,7 +97,9 @@ return {
 						return pjson and pjson.prettier ~= nil
 					end,
 				}),
-				require("none-ls.code_actions.eslint_d"),
+				require("none-ls.code_actions.eslint_d").with({
+
+        }),
 				require("none-ls.formatting.eslint_d"),
 				require("none-ls.diagnostics.eslint_d"),
 				null_ls.builtins.diagnostics.selene.with({
