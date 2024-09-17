@@ -74,7 +74,6 @@ return {
 					end,
 				}),
 				null_ls.builtins.formatting.prettier.with({
-					extra_filetypes = { "ruby" },
 					condition = function(utils)
 						-- https://prettier.io/docs/en/configuration.html
 						local has_file = utils.root_has_file({
@@ -98,9 +97,9 @@ return {
 						return pjson and pjson.prettier ~= nil
 					end,
 				}),
-				require("none-ls.code_actions.eslint"),
-				require("none-ls.formatting.eslint"),
-				require("none-ls.diagnostics.eslint"),
+				require("none-ls.code_actions.eslint_d"),
+				require("none-ls.formatting.eslint_d"),
+				require("none-ls.diagnostics.eslint_d"),
 				null_ls.builtins.diagnostics.selene.with({
 					extra_args = {
 						"--config",
