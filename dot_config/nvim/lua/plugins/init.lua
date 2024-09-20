@@ -162,28 +162,28 @@ return {
 			{ "<leader>g", ":Neogit<CR>" },
 		},
 	},
-	{
-		"vim-test/vim-test",
-		init = function()
-			vim.cmd([[
-        let test#strategy = "neovim_sticky"
-        let test#neovim#term_position = "vert"
-        let g:test#neovim_sticky#kill_previous = 1  " Try to abort previous run
-        let g:test#preserve_screen = 0  " Clear screen from previous run
-        let test#neovim_sticky#reopen_window = 1 " Reopen terminal split if not visible
-
-        let test#javascript#jest#options = "--config jest.integration.config.js"
-
-      ]])
-		end,
-		keys = {
-			{ "<C-o>", [[<C-\><C-n>]], mode = "t" },
-			{ "tn", ":TestNearest<CR>", desc = "Run test under cursor" },
-			{ "tf", ":TestFile<CR>", desc = "Run all tests in file" },
-			{ "tl", ":TestLast<CR>", desc = "Re-run last test" },
-			{ "tv", ":TestVisit<CR>", desc = "Open last-run test" },
-		},
-	},
+	-- {
+	-- 	"vim-test/vim-test",
+	-- 	init = function()
+	-- 		vim.cmd([[
+	--        let test#strategy = "neovim_sticky"
+	--        let test#neovim#term_position = "vert"
+	--        let g:test#neovim_sticky#kill_previous = 1  " Try to abort previous run
+	--        let g:test#preserve_screen = 0  " Clear screen from previous run
+	--        let test#neovim_sticky#reopen_window = 1 " Reopen terminal split if not visible
+	--
+	--        let test#javascript#jest#options = "--config jest.integration.config.js"
+	--
+	--      ]])
+	-- 	end,
+	-- 	keys = {
+	-- 		{ "<C-o>", [[<C-\><C-n>]], mode = "t" },
+	-- 		{ "tn", ":TestNearest<CR>", desc = "Run test under cursor" },
+	-- 		{ "tf", ":TestFile<CR>", desc = "Run all tests in file" },
+	-- 		{ "tl", ":TestLast<CR>", desc = "Re-run last test" },
+	-- 		{ "tv", ":TestVisit<CR>", desc = "Open last-run test" },
+	-- 	},
+	-- },
 	{
 		"AndrewRadev/splitjoin.vim",
 		submodules = false,
