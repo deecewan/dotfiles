@@ -62,12 +62,6 @@ return {
 				}),
 				require("none-ls-shellcheck.code_actions"),
 
-				null_ls.builtins.formatting.rubocop.with({
-					condition = function(utils)
-						return utils.root_has_file({ ".rubocop.yml" })
-					end,
-				}),
-
 				null_ls.builtins.diagnostics.rubocop.with({
 					condition = function(utils)
 						return utils.root_has_file({ ".rubocop.yml" })
@@ -97,9 +91,7 @@ return {
 						return pjson and pjson.prettier ~= nil
 					end,
 				}),
-				require("none-ls.code_actions.eslint_d").with({
-
-        }),
+				require("none-ls.code_actions.eslint_d").with({}),
 				require("none-ls.formatting.eslint_d"),
 				require("none-ls.diagnostics.eslint_d"),
 				null_ls.builtins.diagnostics.selene.with({
