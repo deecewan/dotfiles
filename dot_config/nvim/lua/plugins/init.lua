@@ -197,4 +197,7 @@ return {
 		opts = {},
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 	},
+	{
+		"github/copilot.vim",
+	},
 }
