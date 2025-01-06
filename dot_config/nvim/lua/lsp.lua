@@ -22,6 +22,7 @@ local on_attach = function(client, bufnr)
 	}
 
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set(
 		"n",
