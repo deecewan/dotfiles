@@ -56,6 +56,7 @@ return {
 			sources = {
 				-- null_ls.builtins.formatting.rustfmt,
 				null_ls.builtins.formatting.stylua,
+				null_ls.builtins.formatting.rufo,
 
 				require("none-ls-shellcheck.diagnostics").with({
 					diagnostics_format = "[#{c}] #{m} (#{s})",
