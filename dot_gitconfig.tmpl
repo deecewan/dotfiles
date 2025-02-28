@@ -3,12 +3,23 @@
   name = David Buchan-Swanson
   email = {{ .email }}
   signingkey = DB022207558471B5
+
+[column]
+  ui = auto
+[branch]
+  sort = -committerdate
+[tag]
+  sort = version:refname
 [commit]
   gpgsign = true
+  verbose = true
 [core]
   pager = delta
+  fsmonitor = true
+  untrackedCache = true
 [rerere]
   enabled = true
+  autoenabled = true
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
@@ -19,17 +30,34 @@
   navigate = true
   hyperlinks = true
 [alias]
-  commito = commit
   clean-branches = "!git fetch --all; git branch --merged origin/main | rg -v '(^\\*)|main' | xargs -n 1 git branch -d"
 [init]
 	defaultBranch = main
 [interactive]
-    diffFilter = delta --color-only
+  diffFilter = delta --color-only
 [diff]
-    colorMoved = default
+  colorMoved = plain
+  algorithm = histogram
+  mnemonicPrefix = true
+  renames = true
 [merge]
-    conflictstyle = diff3
+    conflictstyle = zdiff3
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
 [push]
 	autoSetupRemote = true
+  default = simple
+  followTags = true
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[help]
+  autocorrect = prompt
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+[pull]
+  rebase = true
