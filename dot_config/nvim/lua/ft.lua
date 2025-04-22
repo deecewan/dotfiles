@@ -6,6 +6,7 @@ ft.add({
 		Pluginfile = "ruby",
 		Matchfile = "ruby",
 		Appfile = "ruby",
+		Podfile = "ruby",
 	},
 	extension = {
 		rbi = "ruby",

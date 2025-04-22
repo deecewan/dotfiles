@@ -194,7 +194,33 @@ return {
 	},
 	{
 		"stevearc/oil.nvim",
-		opts = {},
+    lazy = false,
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+		opts = {
+			default_file_explorer = true,
+      cleanup_delay_ms = false,
+			columns = {
+				"type",
+				"icon",
+				"permissions",
+				"size",
+				"mtime",
+			},
+      buf_options = {
+        buflisted = true,
+        bufhidden = "hide",
+      },
+      skip_confirm_for_simple_edits = true,
+      watch_for_changes = true,
+      keymaps = {
+        ["<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+        ["<Esc>"] = { "actions.close", mode = "n", desc = "close Oil and return to buffer" },
+      },
+      view_options = {
+        show_hidden = true,
+      },
+		},
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 	},
 	{
