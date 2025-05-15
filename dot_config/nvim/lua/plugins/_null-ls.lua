@@ -19,27 +19,26 @@ local function parse_package_json(utils)
 end
 
 local eslint_d_config = {
-  ---@param utils ConditionalUtils
-  ---@return boolean
-  condition = function(utils)
-    local res = utils.root_has_file({
-      ".eslintrc",
-      ".eslintrc.json",
-      ".eslintrc.yml",
-      ".eslintrc.yaml",
-      ".eslintrc.json5",
-      ".eslintrc.js",
-      ".eslintrc.cjs",
-      "eslint.config.js",
-      "eslint.config.mjs",
-      "eslint.config.cjs",
-      "eslint.config.ts",
-      "eslint.config.mts",
-    })
+	---@param utils ConditionalUtils
+	---@return boolean
+	condition = function(utils)
+		local res = utils.root_has_file({
+			".eslintrc",
+			".eslintrc.json",
+			".eslintrc.yml",
+			".eslintrc.yaml",
+			".eslintrc.json5",
+			".eslintrc.js",
+			".eslintrc.cjs",
+			"eslint.config.js",
+			"eslint.config.mjs",
+			"eslint.config.cjs",
+			"eslint.config.ts",
+			"eslint.config.mts",
+		})
 
-    vim.print('res', res)
-    return res
-  end,
+		return res
+	end,
 }
 
 ---@type LazySpec
