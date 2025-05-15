@@ -1,6 +1,5 @@
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-
 ---gets the package.json
 ---@param utils ConditionalUtils
 ---@returns table?
@@ -19,10 +18,34 @@ local function parse_package_json(utils)
 	end
 end
 
+local eslint_d_config = {
+  ---@param utils ConditionalUtils
+  ---@return boolean
+  condition = function(utils)
+    local res = utils.root_has_file({
+      ".eslintrc",
+      ".eslintrc.json",
+      ".eslintrc.yml",
+      ".eslintrc.yaml",
+      ".eslintrc.json5",
+      ".eslintrc.js",
+      ".eslintrc.cjs",
+      "eslint.config.js",
+      "eslint.config.mjs",
+      "eslint.config.cjs",
+      "eslint.config.ts",
+      "eslint.config.mts",
+    })
+
+    vim.print('res', res)
+    return res
+  end,
+}
+
 ---@type LazySpec
 return {
 	"nvimtools/none-ls.nvim",
-  lazy = true,
+	lazy = true,
 	event = "VeryLazy",
 	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
@@ -87,9 +110,12 @@ return {
 						return pjson and pjson.prettier ~= nil
 					end,
 				}),
-				require("none-ls.code_actions.eslint_d").with({}),
-				require("none-ls.formatting.eslint_d"),
-				require("none-ls.diagnostics.eslint_d"),
+				require("none-ls.code_actions.eslint_d").with(eslint_d_config),
+				require("none-ls.formatting.eslint_d").with(eslint_d_config),
+				require("none-ls.diagnostics.eslint_d").with(eslint_d_config),
+				-- require("none-ls.code_actions.eslint").with(eslint_d_config),
+				-- require("none-ls.formatting.eslint").with(eslint_d_config),
+				-- require("none-ls.diagnostics.eslint").with(eslint_d_config),
 				null_ls.builtins.diagnostics.selene.with({
 					extra_args = {
 						"--config",
