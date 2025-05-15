@@ -1,11 +1,5 @@
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
----comes from none-ls.nvim. i can't figure out how to actually import the types
----@class ConditionalUtils
----@field has_file fun(patterns: ...): boolean checks if file exists
----@field root_has_file fun(patterns: ...): boolean checks if file exists at root level
----@field root_has_file_matches fun(pattern: string): boolean checks if pattern matches a file at root level
----@field root_matches fun(pattern: string): boolean checks if root matches pattern
 
 ---gets the package.json
 ---@param utils ConditionalUtils
@@ -25,9 +19,10 @@ local function parse_package_json(utils)
 	end
 end
 
+---@type LazySpec
 return {
 	"nvimtools/none-ls.nvim",
-	lazy = true,
+  lazy = true,
 	event = "VeryLazy",
 	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
