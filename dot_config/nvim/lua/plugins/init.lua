@@ -231,4 +231,10 @@ return {
 	{
 		"github/copilot.vim",
 	},
+	{
+		"andythigpen/nvim-coverage",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+	},
 }
