@@ -73,7 +73,11 @@ return {
 			sources = {
 				-- null_ls.builtins.formatting.rustfmt,
 				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.rufo,
+				null_ls.builtins.formatting.rufo.with({
+					condition = function()
+						return vim.fn.executable("rufo") == 1
+					end,
+				}),
 
 				require("none-ls-shellcheck.diagnostics").with({
 					diagnostics_format = "[#{c}] #{m} (#{s})",
