@@ -237,4 +237,8 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 	},
+	{
+		"fladson/vim-kitty",
+		ft = "kitty",
+	},
 }
