@@ -37,6 +37,8 @@ local eslint_d_config = {
 			"eslint.config.mts",
 		})
 
+		vim.print(res)
+
 		return res
 	end,
 }
