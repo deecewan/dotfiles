@@ -21,8 +21,8 @@ end
 local eslint_d_config = function(utils, helpers)
 	return {
 		cwd = helpers.cache.by_bufnr(function(params)
-      return utils.cosmiconfig("eslint")(params.bufname)
-    end),
+			return utils.cosmiconfig("eslint")(params.bufname)
+		end),
 		-- ---@param cutils ConditionalUtils
 		-- ---@return boolean
 		-- condition = function(cutils)
@@ -54,8 +54,8 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
-    local helpers = require('null-ls.helpers')
-    local utils = require('null-ls.utils')
+		local helpers = require("null-ls.helpers")
+		local utils = require("null-ls.utils")
 
 		null_ls.setup({
 			debug = true,
@@ -110,6 +110,7 @@ return {
 							".prettier.config.js",
 							".prettier.config.cjs",
 							".prettierrc.toml",
+							".prettier.config.ts",
 						})
 
 						if has_file then
