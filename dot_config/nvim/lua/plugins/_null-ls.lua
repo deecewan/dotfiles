@@ -18,30 +18,33 @@ local function parse_package_json(utils)
 	end
 end
 
-local eslint_d_config = {
-	---@param utils ConditionalUtils
-	---@return boolean
-	condition = function(utils)
-		local res = utils.root_has_file({
-			".eslintrc",
-			".eslintrc.json",
-			".eslintrc.yml",
-			".eslintrc.yaml",
-			".eslintrc.json5",
-			".eslintrc.js",
-			".eslintrc.cjs",
-			"eslint.config.js",
-			"eslint.config.mjs",
-			"eslint.config.cjs",
-			"eslint.config.ts",
-			"eslint.config.mts",
-		})
-
-		vim.print(res)
-
-		return res
-	end,
-}
+local eslint_d_config = function(utils, helpers)
+	return {
+		cwd = helpers.cache.by_bufnr(function(params)
+      return utils.cosmiconfig("eslint")(params.bufname)
+    end),
+		-- ---@param cutils ConditionalUtils
+		-- ---@return boolean
+		-- condition = function(cutils)
+		-- 	local res = cutils.root_has_file({
+		-- 		".eslintrc",
+		-- 		".eslintrc.json",
+		-- 		".eslintrc.yml",
+		-- 		".eslintrc.yaml",
+		-- 		".eslintrc.json5",
+		-- 		".eslintrc.js",
+		-- 		".eslintrc.cjs",
+		-- 		"eslint.config.js",
+		-- 		"eslint.config.mjs",
+		-- 		"eslint.config.cjs",
+		-- 		"eslint.config.ts",
+		-- 		"eslint.config.mts",
+		-- 	})
+		--
+		-- 	return res
+		-- end,
+	}
+end
 
 ---@type LazySpec
 return {
@@ -51,6 +54,8 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-shellcheck.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
+    local helpers = require('null-ls.helpers')
+    local utils = require('null-ls.utils')
 
 		null_ls.setup({
 			debug = true,
@@ -115,9 +120,9 @@ return {
 						return pjson and pjson.prettier ~= nil
 					end,
 				}),
-				require("none-ls.code_actions.eslint_d").with(eslint_d_config),
-				require("none-ls.formatting.eslint_d").with(eslint_d_config),
-				require("none-ls.diagnostics.eslint_d").with(eslint_d_config),
+				require("none-ls.code_actions.eslint_d").with(eslint_d_config(utils, helpers)),
+				require("none-ls.formatting.eslint_d").with(eslint_d_config(utils, helpers)),
+				require("none-ls.diagnostics.eslint_d").with(eslint_d_config(utils, helpers)),
 				-- require("none-ls.code_actions.eslint").with(eslint_d_config),
 				-- require("none-ls.formatting.eslint").with(eslint_d_config),
 				-- require("none-ls.diagnostics.eslint").with(eslint_d_config),
