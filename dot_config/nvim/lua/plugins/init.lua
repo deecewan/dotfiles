@@ -80,19 +80,6 @@ return {
 		},
 	},
 	{
-		"L3MON4D3/LuaSnip",
-		config = function()
-			local luasnip = require("luasnip")
-
-			vim.keymap.set({ "i", "s" }, "<C-k>", function()
-				luasnip.jump(1)
-			end)
-			vim.keymap.set({ "i", "s" }, "<C-j>", function()
-				luasnip.jump(-1)
-			end)
-		end,
-	},
-	{
 		"folke/lazydev.nvim",
 		dependencies = { { "Bilal2453/luvit-meta", lazy = true } },
 		ft = "lua", -- only load on lua files
