@@ -96,6 +96,11 @@ return {
 						return utils.root_has_file({ ".rubocop.yml" })
 					end,
 				}),
+				null_ls.builtins.formatting.rubocop.with({
+					condition = function(utils)
+						return utils.root_has_file({ ".rubocop.yml" })
+					end,
+				}),
 				null_ls.builtins.formatting.prettier.with({
 					condition = function(utils)
 						-- https://prettier.io/docs/en/configuration.html
