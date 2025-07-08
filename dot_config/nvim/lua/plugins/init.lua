@@ -229,4 +229,9 @@ return {
 		"fladson/vim-kitty",
 		ft = "kitty",
 	},
+
+	{
+		"zbirenbaum/copilot.lua",
+		opts = { {} },
+	},
 }
