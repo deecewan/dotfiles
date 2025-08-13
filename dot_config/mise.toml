@@ -8,6 +8,7 @@ ruby = "3.2.2"
 usage = "latest"
 "npm:typescript" = "latest"
 "cargo:ubi-cli" = "latest"
+"cargo:zellij" = "latest"
 "ubi:simeji/jid" = "latest"
 
 [env]
