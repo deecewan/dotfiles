@@ -1,22 +1,22 @@
 {{ $email := promptString "email" -}}
-{{- $osid := .chezmoi.os -}}
-{{- if hasKey .chezmoi.osRelease "id" -}}
-{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
 {{- $homebrewDir := "" -}}
-{{- if eq .osid "darwin" }}
+{{- if eq .chezmoi.os "darwin" }}
   {{- if eq .chezmoi.arch "arm64" }}
     {{ $homebrewDir = "/opt/homebrew" }}
   {{- else -}}
-    {{- /* this is a fallback, gotta hope it's right */ -}}
-    {{- $homebrewDir = "/usr/local" -}}
-  {{ end -}}
-{{ end -}}
+    {{ $homebrewDir = "/usr/local" -}}
+  {{- end -}}
+{{- end -}}
+
 
 encryption = "age"
 [data]
   email = {{ $email | quote }}
-  osid = {{ $osid | quote }}
+  {{- if hasKey .chezmoi.osRelease "id" }}
+  osid = {{ printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id | quote }}
+  {{- else }}
+  osid = {{ .chezmoi.os | quote }}
+  {{- end }}
   homebrewDir = {{ $homebrewDir | quote }}
 [data.options]
   android = false
