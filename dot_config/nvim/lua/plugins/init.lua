@@ -236,6 +236,9 @@ return {
 	},
 	{
 		"xvzc/chezmoi.nvim",
+		dependencies = {
+			"alker0/chezmoi.vim",
+		},
 		opts = { {} },
 	},
 }
