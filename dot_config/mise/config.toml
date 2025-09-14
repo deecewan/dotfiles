@@ -12,6 +12,7 @@ rust = "latest"
 "cargo:zellij" = "latest"
 "ubi:simeji/jid" = "latest"
 "ubi:koalaman/shellcheck" = "latest"
+"ubi:dandavison/delta" = "latest"
 
 [settings]
 experimental = true
