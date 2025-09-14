@@ -39,10 +39,10 @@ packages+=(
   neovim
   just
   rust-analyzer
-  xh
   starship
   mise
   gnupg
+  libyaml
 )
 
 echo "Installing the following from homebrew:"
@@ -50,15 +50,5 @@ echo "${packages[*]}"
 
 brew install ${packages[*]}
 {{ end }}
-
-if [[ ! -d ~/.fzf ]]; then
-  echo "Installing fzf..."
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --completion --key-bindings --no-update-rc
-
-  # this is usually auto-sourced in the zshrc. source here to enable it now
-  . ~/.fzf.zsh
-fi
-
 
 echo "Done!"

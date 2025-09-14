@@ -18,7 +18,10 @@ done
 eval "$(starship init zsh)"
 
 util.source_if_exists ~/.env
-util.source_if_exists ~/.fzf.zsh
+
+if [[ -n "$(command -v fzf)" ]]; then
+  source <(fzf --zsh)
+fi
 
 export EDITOR=nvim
 
@@ -62,8 +65,6 @@ bindkey "^N" history-beginning-search-forward
 {{ if eq .osid "darwin" -}}
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
 {{- end }}
-
-util.source_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 
 if [[ -d "$HOME/bin" ]]; then
   path+=("$HOME/bin")

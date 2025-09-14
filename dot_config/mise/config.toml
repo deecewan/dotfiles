@@ -13,6 +13,8 @@ rust = "latest"
 "ubi:simeji/jid" = "latest"
 "ubi:koalaman/shellcheck" = "latest"
 "ubi:dandavison/delta" = "latest"
+"ubi:casey/just" = "latest"
+"ubi:junegunn/fzf" = { version = "latest" }
 
 [settings]
 experimental = true
