@@ -2,10 +2,11 @@
 
 ## Getting Started
 
-TODO: Install chezmoi...
+A one-line to install `chezmo` and apply the dotfiles.
+Installs chezmoi to `./bin` by default. Run from `~`.
 
 ```sh
-chezmoi init deecewan
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 ```
 
 Once `chezmoi` is installed, you can set options by editing the
