@@ -234,4 +234,8 @@ return {
 		"zbirenbaum/copilot.lua",
 		opts = { {} },
 	},
+	{
+		"xvzc/chezmoi.nvim",
+		opts = { {} },
+	},
 }
