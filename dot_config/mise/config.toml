@@ -11,6 +11,7 @@ rust = "latest"
 "cargo:ubi-cli" = "latest"
 "cargo:zellij" = "latest"
 "ubi:simeji/jid" = "latest"
+"ubi:koalaman/shellcheck" = "latest"
 
 [settings]
 experimental = true
