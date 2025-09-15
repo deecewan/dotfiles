@@ -9,6 +9,8 @@ eval $({{.homebrewDir}}/bin/brew shellenv)
 
 if [[ -n "$(command -v mise)" ]]; then
   eval "$(mise activate zsh)"
+elif [[ -f ~/.local/bin/mise ]]; then
+  eval "$(~/.local/bin/mise activate zsh)"
 fi
 
 for f in ~/.config/zsh/*; do
