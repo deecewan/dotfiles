@@ -21,3 +21,6 @@ cargo-binstall = "latest"
 experimental = true
 status.show_env = true
 status.show_tools = true
+
+[env]
+CLOUDSDK_ACTIVE_CONFIG_NAME = 'default'
