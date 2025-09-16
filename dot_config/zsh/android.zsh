@@ -7,4 +7,7 @@ path+=(
   $ANDROID_HOME/platform-tools
   # this is where the sdkmanager binary lives
   $ANDROID_HOME/cmdline-tools/latest/bin
+  # this is here to make sure it comes _after_ cmdline-tools, which has the
+  # modern version of things
+  $ANDROID_HOME/tools/bin
 )
