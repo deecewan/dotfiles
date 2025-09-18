@@ -38,7 +38,6 @@ return {
 			"stylua",
 			"lua-language-server",
 
-			"chrome-debug-adapter",
 			"cpptools",
 			"js-debug-adapter",
 			"taplo",
