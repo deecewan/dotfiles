@@ -2,12 +2,12 @@
 
 echo "Installing packages..."
 
+if [[ -z "$(command -v mise)" ]]; then
+  curl https://mise.run | sh
+fi
+
 packages=(
-  bat
-  eza
   git
-  ripgrep
-  sd
   zsh
 )
 
@@ -37,8 +37,6 @@ sudo snap install nvim --classic
 
 packages+=(
   neovim
-  starship
-  mise
   gnupg
   libyaml
 )
@@ -50,6 +48,7 @@ brew install ${packages[*]}
 
 casks=(
   hiddenbar
+  nikitabobko/tap/aerospace
 )
 
 brew install --cask ${casks[*]}
