@@ -19,6 +19,7 @@ cargo-binstall = "latest"
 "ubi:dandavison/delta" = "latest"
 "ubi:casey/just" = "latest"
 "ubi:junegunn/fzf" = { version = "latest" }
+"ubi:jqlang/jq" = "latest"
 
 [settings]
 experimental = true
