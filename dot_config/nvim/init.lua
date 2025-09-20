@@ -80,4 +80,5 @@ require("lazy").setup({
 })
 
 require("ft")
-require('keymap')
+require("keymap")
+require("lsp")

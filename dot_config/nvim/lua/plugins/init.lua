@@ -244,4 +244,7 @@ return {
 	{
 		"xvzc/chezmoi.nvim",
 	},
+	{
+		"L3MON4D3/LuaSnip",
+	},
 }
