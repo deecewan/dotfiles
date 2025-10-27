@@ -1,5 +1,5 @@
 [tools]
-node = "20.15.0"
+node = "latest"
 python = "3.12.4"
 ruby = "3.2.2"
 usage = "latest"
@@ -20,6 +20,12 @@ cargo-binstall = "latest"
 "ubi:casey/just" = "latest"
 "ubi:junegunn/fzf" = { version = "latest" }
 "ubi:jqlang/jq" = "latest"
+"npm:@google/gemini-cli" = "latest"
+"npm:@github/copilot" = "latest"
+colima = "latest"
+lima = "latest"
+docker-compose = "latest"
+docker-cli = "latest"
 
 [settings]
 experimental = true
