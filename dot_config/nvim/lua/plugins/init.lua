@@ -181,9 +181,16 @@ return {
       {
         "gJ",
         function()
-          require("treesj").toggle()
+          require("treesj").join()
         end,
-        desc = "Join Toggle",
+        desc = "Join lines",
+      },
+      {
+        "gS",
+        function()
+          require("treesj").split()
+        end,
+        desc = "Split lines",
       },
     },
   },
@@ -252,26 +259,51 @@ return {
   {
     "L3MON4D3/LuaSnip",
   },
+  { "xzbdmw/colorful-menu.nvim" },
   {
     "saghen/blink.cmp",
+    dependencies = { "xzbdmw/colorful-menu.nvim", "kyazdani42/nvim-web-devicons", "onsails/lspkind.nvim" },
     tag = "v1.7.0",
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       keymap = { preset = "enter" },
-      completion = { documentation = { auto_show = true }, list = { selection = { preselect = false } } },
+      completion = {
+        documentation = { auto_show = true, window = { border = "rounded" } },
+        list = { selection = { preselect = false } },
+        menu = {
+          border = "rounded",
+          draw = {
+            columns = { { "kind_icon" }, { "label", gap = 1 } },
+            components = {
+              label = {
+                text = function(ctx)
+                  return require("colorful-menu").blink_components_text(ctx)
+                end,
+                highlight = function(ctx)
+                  return require("colorful-menu").blink_components_highlight(ctx)
+                end,
+              },
+            },
+          },
+        },
+      },
+      signature = { enabled = true, window = { border = "rounded" } },
     },
   },
   {
     "ej-shafran/compile-mode.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      { "m00qek/baleia.nvim", tag = "v1.3.0" },
     },
     config = function()
-      ---@module 'compile-mode'
-      ---@type compile_mode.Config
+      ---@module 'compile-mode.config.meta'
+      ---@type CompileModeOpts
       vim.g.compile_mode = {
         input_word_completion = true,
+        bang_expansion = true,
+        baleia_setup = true,
       }
     end,
   },
