@@ -26,6 +26,7 @@ colima = "latest"
 lima = "latest"
 docker-compose = "latest"
 docker-cli = "latest"
+"cargo:tree-sitter-cli" = "latest"
 
 [settings]
 experimental = true
