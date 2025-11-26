@@ -149,9 +149,9 @@ return {
 		},
 	},
 	-- {
-	-- 	"vim-test/vim-test",
-	-- 	init = function()
-	-- 		vim.cmd([[
+	--   "vim-test/vim-test",
+	--   init = function()
+	--     vim.cmd([[
 	--        let test#strategy = "neovim_sticky"
 	--        let test#neovim#term_position = "vert"
 	--        let g:test#neovim_sticky#kill_previous = 1  " Try to abort previous run
@@ -161,14 +161,14 @@ return {
 	--        let test#javascript#jest#options = "--config jest.integration.config.js"
 	--
 	--      ]])
-	-- 	end,
-	-- 	keys = {
-	-- 		{ "<C-o>", [[<C-\><C-n>]], mode = "t" },
-	-- 		{ "tn", ":TestNearest<CR>", desc = "Run test under cursor" },
-	-- 		{ "tf", ":TestFile<CR>", desc = "Run all tests in file" },
-	-- 		{ "tl", ":TestLast<CR>", desc = "Re-run last test" },
-	-- 		{ "tv", ":TestVisit<CR>", desc = "Open last-run test" },
-	-- 	},
+	--   end,
+	--   keys = {
+	--     { "<C-o>", [[<C-\><C-n>]], mode = "t" },
+	--     { "tn", ":TestNearest<CR>", desc = "Run test under cursor" },
+	--     { "tf", ":TestFile<CR>", desc = "Run all tests in file" },
+	--     { "tl", ":TestLast<CR>", desc = "Re-run last test" },
+	--     { "tv", ":TestVisit<CR>", desc = "Open last-run test" },
+	--   },
 	-- },
 	{
 		"Wansmer/treesj",
