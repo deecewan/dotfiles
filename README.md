@@ -1,12 +1,16 @@
 # dotfiles
 
+## Pre-requisites
+
+You'll need 1password
+
 ## Getting Started
 
-A one-line to install `chezmo` and apply the dotfiles.
+A one-line to install `chezmoi` and apply the dotfiles.
 Installs chezmoi to `./bin` by default. Run from `~`.
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply deecewan
 ```
 
 Once `chezmoi` is installed, you can set options by editing the

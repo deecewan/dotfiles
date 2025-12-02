@@ -1,0 +1,21 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# This script applies the Caps Lock -> Escape key remapping on macOS
+
+{{- $name:="com.deecewan.keys.remap" }}
+
+# Define the plist content with the hidutil command
+PLIST_CONTENT='{{includeTemplate "key-remap.plist" (dict "name" $name) }}'
+PLIST_FILE="$HOME/Library/LaunchAgents/{{$name}}.plist"
+
+# boot out any old versions
+launchctl bootout "gui/$(id -u)" "$PLIST_FILE"
+
+# Write the plist file
+echo "$PLIST_CONTENT" > "$PLIST_FILE"
+
+# Load the launchd agent (start the mapping)
+# The load command requires the full path to the plist file
+launchctl bootstrap "gui/$(id -u)" "$PLIST_FILE"
+
+{{- end -}}

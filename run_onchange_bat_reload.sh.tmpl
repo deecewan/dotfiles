@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+# change the checksum if the themes change
+{{ $files := joinPath .chezmoi.sourceDir "dot_config/bat/themes/*" | glob }}
+{{- range $file := $files -}}
+# {{ $file }}: {{ include $file | sha256sum }}
+{{ end -}}
+
+bat cache --build

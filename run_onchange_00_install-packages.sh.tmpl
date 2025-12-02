@@ -4,6 +4,12 @@ echo "Installing packages..."
 
 if [[ -z "$(command -v mise)" ]]; then
   curl https://mise.run | sh
+  eval "$(~/.local/bin/mise activate zsh)"
+fi
+
+if [[ -z "$(command -v brew)" ]]; then
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 packages=(
@@ -36,9 +42,9 @@ sudo snap install nvim --classic
 {{ else if eq .osid "darwin" }}
 
 packages+=(
-  neovim
   gnupg
   libyaml
+  pinentry-mac
 )
 
 echo "Installing the following from homebrew:"
