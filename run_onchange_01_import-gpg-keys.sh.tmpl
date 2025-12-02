@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# {{ joinPath .chezmoi.homeDir ".gnupg" "keys.pgp" | include | sha256sum }}
+
+gpg --import-options restore --import "$HOME/.gnupg/keys.pgp"
