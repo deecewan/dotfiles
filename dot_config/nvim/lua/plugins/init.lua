@@ -229,9 +229,13 @@ return {
 		},
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 	},
-	{
-		"github/copilot.vim",
-	},
+	-- {
+	-- 	"github/copilot.vim",
+	-- },
+	-- {
+	-- 	"zbirenbaum/copilot.lua",
+	-- 	opts = { {} },
+	-- },
 	{
 		"andythigpen/nvim-coverage",
 		dependencies = {
@@ -241,10 +245,6 @@ return {
 	{
 		"fladson/vim-kitty",
 		ft = "kitty",
-	},
-	{
-		"zbirenbaum/copilot.lua",
-		opts = { {} },
 	},
 	{
 		"alker0/chezmoi.vim",
@@ -304,6 +304,10 @@ return {
 				input_word_completion = true,
 				bang_expansion = true,
 				baleia_setup = true,
+				default_command = "",
+				environment = {
+					COLOR = "true",
+				},
 			}
 		end,
 	},
