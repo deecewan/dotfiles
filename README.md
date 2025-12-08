@@ -2,7 +2,11 @@
 
 ## Pre-requisites
 
-You'll need 1password
+You'll need 1password. Install the CLI from
+[here](https://app-updates.agilebits.com/product_history/CLI2) and the main app
+from [here](https://1password.com/downloads).
+Sign in to the main app. In Settings -> Developer, enable "Integrate with
+1Password CLI".
 
 ## Getting Started
 

@@ -4,7 +4,7 @@
 {{ $identityFile := printf "%s/identity.txt" $configDir }}
 
 if [ -f "{{- $identityFile -}}" ]; then
-  read -n1 -p 'File exists, do you want to overwrite? [y/N]' confirm
+  read -n1 -p 'Age identify file exists, do you want to overwrite? [y/N]' confirm
 
   echo
 
@@ -14,8 +14,6 @@ if [ -f "{{- $identityFile -}}" ]; then
   esac
 fi
 
-read -p "Age Identity Contents: " contents
-
 mkdir -p "{{- $identityFile | dir -}}"
 
-echo "$contents" > "{{- $identityFile -}}"
+echo "{{ onepasswordRead "op://private/jmnliqlqmffzxppf6b5hmlbp44/password" }}" > "{{- $identityFile -}}"
