@@ -1,0 +1,12 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+
+# set the dock to auto-hide
+defaults write com.apple.dock autohide -bool true
+# remove all items from the dock
+defaults write com.apple.dock persistent-apps -array
+# make the dock smaller
+defaults write com.apple.dock tilesize -int 24
+# reload the dock
+killall Dock
+{{- end -}}

@@ -24,3 +24,8 @@ All options are false by default
 - `android`: enable android development bits
 - `gcloud`: enable the google cloud sdk
 - `brew`: install homebrew/linuxbrew and packages in the brewfile
+
+## After
+
+- Install Logi Options+
+  - restore backed up settings for mouse
