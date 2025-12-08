@@ -1,4 +1,4 @@
-{{ $email := promptString "email" -}}
+{{- $email := promptString "email" -}}
 {{- $homebrewDir := "" -}}
 {{- if eq .chezmoi.os "darwin" }}
   {{- if eq .chezmoi.arch "arm64" }}
@@ -8,6 +8,7 @@
   {{- end -}}
 {{- end -}}
 
+encryption = "age"
 [data]
   email = {{ $email | quote }}
   {{- if hasKey .chezmoi.osRelease "id" }}
@@ -24,7 +25,6 @@
   ruby = false
 [diff]
   pager = "delta"
-encryption = "age"
 [age]
   identity = "{{ .chezmoi.configFile | dir }}/identity.txt"
   recipient = "age14y0f2fjgejf0r3khur0v6wkx4y22jf8p5t29ah2ppct3gpr8vusqfllwpd"
