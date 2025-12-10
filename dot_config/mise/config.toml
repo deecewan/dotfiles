@@ -30,6 +30,7 @@ lima = "latest"
 docker-compose = "latest"
 docker-cli = "latest"
 "cargo:tree-sitter-cli" = "latest"
+bun = "latest"
 
 [settings]
 experimental = true
